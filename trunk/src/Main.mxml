@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:control="com.vettigheid.engine.control.*"
+	xmlns:view="com.vettigheid.engine.view.*"
+	layout="absolute"
+	creationComplete="handleCreationComplete()"
+	width="520"
+	height="360"
+>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.vettigheid.engine.view.DebugView;
+			import com.vettigheid.physics.PhysicsWrapper;
+			import com.vettigheid.engine.view.ViewManager;
+			import com.vettigheid.engine.model.ModelLocator;
+			import com.vettigheid.engine.event.GameEvent;
+			
+			private var _model:ModelLocator;
+			
+			private function handleCreationComplete():void
+			{
+				_model = ModelLocator.getInstance();
+				
+				_model.physics = new PhysicsWrapper(true);
+				debugView.physicsDebugSprite = _model.physics.debugSprite;
+				
+				_model.views = new ViewManager();
+				
+				_model.views.addView("debugView", debugView);
+				if(!_model.debugMode) _model.views.hideView("debugView");
+				
+				_model.views.addView("levelView", levelView);
+				
+				this.addEventListener(Event.ENTER_FRAME, handleEnterFrame, false, 0, true);
+				
+				var gameEvent:GameEvent = new GameEvent(GameEvent.BUILD);
+				gameEvent.dispatch();
+			}
+			
+			private function handleEnterFrame(e:Event):void
+			{
+				_model.physics.render();
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<control:EngineController id="engineControl" />
+	
+	<view:DebugView id="debugView" width="520" height="320" />
+	<view:LevelView id="levelView" width="520" height="320" />
+	
+</mx:Application>
