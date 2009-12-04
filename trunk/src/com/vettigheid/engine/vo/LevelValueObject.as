@@ -1,6 +1,8 @@
 package com.vettigheid.engine.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
+	
+	import flash.geom.Point;
 
 	public class LevelValueObject implements ValueObject
 	{

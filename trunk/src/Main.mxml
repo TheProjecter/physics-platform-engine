@@ -4,42 +4,52 @@
 	xmlns:control="com.vettigheid.engine.control.*"
 	xmlns:view="com.vettigheid.engine.view.*"
 	layout="absolute"
-	creationComplete="handleCreationComplete()"
+	applicationComplete="handleApplicationComplete()"
 	width="520"
 	height="360"
 >
 	
 	<mx:Script>
 		<![CDATA[
+			import com.vettigheid.physics.component.PlayerPhysicsComponent;
 			import com.vettigheid.engine.view.DebugView;
 			import com.vettigheid.physics.PhysicsWrapper;
 			import com.vettigheid.engine.view.ViewManager;
 			import com.vettigheid.engine.model.ModelLocator;
+			import com.vettigheid.engine.event.KeyEvent;
 			import com.vettigheid.engine.event.LevelEvent;
 			
-			private var _model:ModelLocator;
+			public var model:ModelLocator;
 			
-			private function handleCreationComplete():void
+			private function handleApplicationComplete():void
 			{
 				// Get a reference to the ModelLocator
-				_model = ModelLocator.getInstance();
+				model = ModelLocator.getInstance();
 				
+				// Put all possible keyCodes in an Array
+				for(var i:int = 0; i < 222; i++)
+				{
+					model.keys.push(false);
+				}
+			
 				// Initialize the Physics Module
-				_model.physics = new PhysicsWrapper(true);
+				model.physics = new PhysicsWrapper(true);
 				// Get a reference to the Box2D DebugSprite
-				debugView.physicsDebugSprite = _model.physics.debugSprite;
+				debugView.physicsDebugSprite = model.physics.debugSprite;
 				
 				// Get a reference to the ViewManager
-				_model.views = new ViewManager();
+				model.views = new ViewManager();
 				// Add the debugView to the ViewManager
-				_model.views.addView("debugView", debugView);
+				model.views.addView("debugView", debugView);
 				// If DebugMode is FALSE, hide the debugView for the user
-				if(!_model.debugMode) _model.views.hideView("debugView");
+				if(!model.debugMode) model.views.hideView("debugView");
 				// Add the gameView to the ViewManager
-				_model.views.addView("gameView", gameView);
-				
+				model.views.addView("gameView", gameView);
+
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown, false, 0, true);
+				stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp, false, 0, true);				
 				this.addEventListener(Event.ENTER_FRAME, handleEnterFrame, false, 0, true);
-				
+
 				// Dispatch a LevelEvent to the EngineController that the first level can be loaded
 				var levelEvent:LevelEvent = new LevelEvent(LevelEvent.LOAD);
 				levelEvent.dispatch();
@@ -47,8 +57,32 @@
 			
 			private function handleEnterFrame(e:Event):void
 			{
-				// Render the Box2D Physics Engine
-				_model.physics.render();
+				if(model.gameVO != null && model.gameVO.ready)
+				{
+					// Move the player correspondending to the keyboard presses
+					PlayerPhysicsComponent(model.physics.getComponent("player")).move(model.keys);
+					
+					// Render the Box2D Physics Engine
+					model.physics.render();
+				}
+			}
+			
+			private function handleKeyDown(e:KeyboardEvent):void
+			{
+				if(model.gameVO != null && model.gameVO.ready)
+				{
+					var keyEvent:KeyEvent = new KeyEvent(KeyEvent.DOWN, e.keyCode);
+					keyEvent.dispatch();
+				}
+			}
+			
+			private function handleKeyUp(e:KeyboardEvent):void
+			{
+				if(model.gameVO != null && model.gameVO.ready)
+				{
+					var keyEvent:KeyEvent = new KeyEvent(KeyEvent.UP, e.keyCode);
+					keyEvent.dispatch();
+				}
 			}
 			
 		]]>

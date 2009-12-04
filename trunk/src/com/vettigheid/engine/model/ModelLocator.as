@@ -2,7 +2,7 @@ package com.vettigheid.engine.model
 {
 	import com.adobe.cairngorm.model.IModelLocator;
 	import com.vettigheid.engine.view.ViewManager;
-	import com.vettigheid.engine.vo.LevelValueObject;
+	import com.vettigheid.engine.vo.GameValueObject;
 	import com.vettigheid.physics.PhysicsWrapper;
 
 	[Bindable]
@@ -11,7 +11,8 @@ package com.vettigheid.engine.model
 		private static var _instance:ModelLocator
 		
 		public var debugMode:Boolean = true;
-		public var levelVO:LevelValueObject;
+		public var gameVO:GameValueObject;
+		public var keys:Array = new Array();
 		public var physics:PhysicsWrapper;
 		public var views:ViewManager;
 		
