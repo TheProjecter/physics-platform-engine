@@ -4,7 +4,7 @@ package com.vettigheid.engine.command
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.vettigheid.engine.model.ModelLocator;
 
-	public class AbstractCommand implements ICommand
+	public class AbstractCommand
 	{
 		private var _model:ModelLocator;
 		
@@ -12,11 +12,7 @@ package com.vettigheid.engine.command
 		{
 			_model = ModelLocator.getInstance();
 		}
-		
-		public function execute(event:CairngormEvent):void
-		{
-		}
-		
+
 		protected function get model():ModelLocator
 		{
 			return _model;

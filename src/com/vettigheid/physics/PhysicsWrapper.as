@@ -5,12 +5,15 @@ package com.vettigheid.physics
 	import Box2D.Dynamics.b2DebugDraw;
 	import Box2D.Dynamics.b2World;
 	
+	import com.vettigheid.physics.collision.PhysicsCollision;
+	import com.vettigheid.physics.collision.PhysicsCollisionListener;
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	
 	import flash.display.Sprite;
 	
 	public class PhysicsWrapper
 	{
+		private var _collisionListener:PhysicsCollisionListener;
 		private var _components:Array;
 		private var _debugSprite:Sprite;
 		private var _iterations:int = 10;
@@ -30,10 +33,20 @@ package com.vettigheid.physics
 			return _debugSprite;
 		}
 
+		public function addCollision(collision:PhysicsCollision):void
+		{
+			_collisionListener.addCollision(collision);
+		}
+
 		public function addComponent(name:String, component:AbstractPhysicsComponent):void
 		{
 			component.body = _world.CreateBody(component.bodydef);
 			_components[name] = component;
+		}
+		
+		public function getComponent(name:String):AbstractPhysicsComponent
+		{
+			return _components[name];
 		}
 		
 		public function render():void
@@ -51,6 +64,9 @@ package com.vettigheid.physics
 			var doSleep:Boolean = true;
 			
 			_world = new b2World(worldAABB, gravity, doSleep);
+			
+			_collisionListener = new PhysicsCollisionListener();
+			_world.m_contactListener = _collisionListener;
 		}
 		
 		private function initDebug():void

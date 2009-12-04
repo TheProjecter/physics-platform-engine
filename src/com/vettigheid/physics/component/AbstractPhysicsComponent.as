@@ -1,11 +1,14 @@
 package com.vettigheid.physics.component
 {
+	import Box2D.Collision.Shapes.b2CircleDef;
 	import Box2D.Collision.Shapes.b2MassData;
 	import Box2D.Collision.Shapes.b2PolygonDef;
 	import Box2D.Collision.Shapes.b2ShapeDef;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
+	
+	import flash.geom.Point;
 	
 	public class AbstractPhysicsComponent
 	{
@@ -41,6 +44,11 @@ package com.vettigheid.physics.component
 			_body.SetMass(_mass);
 		}
 		
+		public function set position(value:Point):void
+		{
+			_body.SetXForm(new b2Vec2(value.x / 30, value.y / 30), 0);
+		}
+		
 		public function get shape():b2ShapeDef
 		{
 			return _shape;			
@@ -72,6 +80,21 @@ package com.vettigheid.physics.component
 			box.restitution = restitution;
 			
 			return box;
+		}
+		
+		protected function createCircle(radius:Number, density:Number, friction:Number, restitution:Number):b2CircleDef
+		{
+			// Make a new b2ShapeDef in the shape of a circle
+			var circle:b2CircleDef = new b2CircleDef();
+			
+			// Set some common circle parameters
+			circle.radius = radius / 2 / 30;
+			circle.density = density;
+			circle.friction = friction;
+			circle.restitution = restitution;
+			
+			// Return the new b2CircleDef
+			return circle;
 		}
 	}
 }

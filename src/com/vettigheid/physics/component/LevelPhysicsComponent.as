@@ -6,7 +6,7 @@ package com.vettigheid.physics.component
 	{
 		public function LevelPhysicsComponent()
 		{
-			super(15, 15);
+			super(20, 20);
 		}
 		
 		public function build(data:Array):void
@@ -17,6 +17,7 @@ package com.vettigheid.physics.component
 				{
 					if(data[i][j] == 1)
 					{
+						// TODO: Make the tilesize a variable
 						this.shape = this.createBox(40, 40, j * 40, i * 40, 0, .5, .2, true);
 					}
 				}
