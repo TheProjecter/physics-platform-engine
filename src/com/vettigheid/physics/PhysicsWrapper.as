@@ -33,7 +33,6 @@ package com.vettigheid.physics
 		public function addComponent(name:String, component:AbstractPhysicsComponent):void
 		{
 			component.body = _world.CreateBody(component.bodydef);
-			component.body.CreateShape(component.shape);
 			_components[name] = component;
 		}
 		
