@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:control="com.vettigheid.engine.control.*"
+	xmlns:view="com.vettigheid.engine.view.*"
+	layout="absolute"
+	applicationComplete="handleApplicationComplete()"
+	width="520"
+	height="360"
+>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.vettigheid.physics.component.PlayerPhysicsComponent;
+			import com.vettigheid.engine.view.DebugView;
+			import com.vettigheid.physics.PhysicsWrapper;
+			import com.vettigheid.engine.view.ViewManager;
+			import com.vettigheid.engine.model.ModelLocator;
+			import com.vettigheid.engine.event.KeyEvent;
+			import com.vettigheid.engine.event.LevelEvent;
+			
+			public var model:ModelLocator;
+			
+			private function handleApplicationComplete():void
+			{
+				// Get a reference to the ModelLocator
+				model = ModelLocator.getInstance();
+				
+				// Put all possible keyCodes in an Array
+				for(var i:int = 0; i < 222; i++)
+				{
+					model.keys.push(false);
+				}
+			
+				// Initialize the Physics Module
+				model.physics = new PhysicsWrapper(true);
+				// Get a reference to the Box2D DebugSprite
+				debugView.physicsDebugSprite = model.physics.debugSprite;
+				
+				// Get a reference to the ViewManager
+				model.views = new ViewManager();
+				// Add the debugView to the ViewManager
+				model.views.addView("debugView", debugView);
+				// If DebugMode is FALSE, hide the debugView for the user
+				if(!model.debugMode) model.views.hideView("debugView");
+				// Add the gameView to the ViewManager
+				model.views.addView("gameView", gameView);
+
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown, false, 0, true);
+				stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp, false, 0, true);				
+				this.addEventListener(Event.ENTER_FRAME, handleEnterFrame, false, 0, true);
+
+				// Dispatch a LevelEvent to the EngineController that the first level can be loaded
+				var levelEvent:LevelEvent = new LevelEvent(LevelEvent.LOAD);
+				levelEvent.dispatch();
+			}
+			
+			private function handleEnterFrame(e:Event):void
+			{
+				if(model.gameVO != null && model.gameVO.ready)
+				{
+					// Move the player correspondending to the keyboard presses
+					PlayerPhysicsComponent(model.physics.getComponent("player")).move(model.keys);
+					
+					// Render the Box2D Physics Engine
+					model.physics.render();
+				}
+			}
+			
+			private function handleKeyDown(e:KeyboardEvent):void
+			{
+				if(model.gameVO != null && model.gameVO.ready)
+				{
+					var keyEvent:KeyEvent = new KeyEvent(KeyEvent.DOWN, e.keyCode);
+					keyEvent.dispatch();
+				}
+			}
+			
+			private function handleKeyUp(e:KeyboardEvent):void
+			{
+				if(model.gameVO != null && model.gameVO.ready)
+				{
+					var keyEvent:KeyEvent = new KeyEvent(KeyEvent.UP, e.keyCode);
+					keyEvent.dispatch();
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<control:EngineController id="engineControl" />
+	
+	<view:DebugView id="debugView" width="520" height="320" />
+	<view:GameView id="gameView" width="520" height="320" />
+	
+</mx:Application>
