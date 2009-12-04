@@ -15,32 +15,39 @@
 			import com.vettigheid.physics.PhysicsWrapper;
 			import com.vettigheid.engine.view.ViewManager;
 			import com.vettigheid.engine.model.ModelLocator;
-			import com.vettigheid.engine.event.GameEvent;
+			import com.vettigheid.engine.event.LevelEvent;
 			
 			private var _model:ModelLocator;
 			
 			private function handleCreationComplete():void
 			{
+				// Get a reference to the ModelLocator
 				_model = ModelLocator.getInstance();
 				
+				// Initialize the Physics Module
 				_model.physics = new PhysicsWrapper(true);
+				// Get a reference to the Box2D DebugSprite
 				debugView.physicsDebugSprite = _model.physics.debugSprite;
 				
+				// Get a reference to the ViewManager
 				_model.views = new ViewManager();
-				
+				// Add the debugView to the ViewManager
 				_model.views.addView("debugView", debugView);
+				// If DebugMode is FALSE, hide the debugView for the user
 				if(!_model.debugMode) _model.views.hideView("debugView");
-				
-				_model.views.addView("levelView", levelView);
+				// Add the gameView to the ViewManager
+				_model.views.addView("gameView", gameView);
 				
 				this.addEventListener(Event.ENTER_FRAME, handleEnterFrame, false, 0, true);
 				
-				var gameEvent:GameEvent = new GameEvent(GameEvent.BUILD);
-				gameEvent.dispatch();
+				// Dispatch a LevelEvent to the EngineController that the first level can be loaded
+				var levelEvent:LevelEvent = new LevelEvent(LevelEvent.LOAD);
+				levelEvent.dispatch();
 			}
 			
 			private function handleEnterFrame(e:Event):void
 			{
+				// Render the Box2D Physics Engine
 				_model.physics.render();
 			}
 			
@@ -50,6 +57,6 @@
 	<control:EngineController id="engineControl" />
 	
 	<view:DebugView id="debugView" width="520" height="320" />
-	<view:LevelView id="levelView" width="520" height="320" />
+	<view:GameView id="gameView" width="520" height="320" />
 	
 </mx:Application>

@@ -1,8 +1,9 @@
 package com.vettigheid.engine.control
 {
 	import com.adobe.cairngorm.control.FrontController;
-	import com.vettigheid.engine.command.BuildGameCommand;
-	import com.vettigheid.engine.event.GameEvent;
+	import com.vettigheid.engine.command.BuildLevelCommand;
+	import com.vettigheid.engine.command.LoadLevelCommand;
+	import com.vettigheid.engine.event.LevelEvent;
 
 	public class EngineController extends FrontController
 	{
@@ -13,7 +14,8 @@ package com.vettigheid.engine.control
 		
 		private function initialise():void
 		{
-			addCommand(GameEvent.BUILD, BuildGameCommand);
+			addCommand(LevelEvent.BUILD, BuildLevelCommand);
+			addCommand(LevelEvent.LOAD, LoadLevelCommand);
 		}
 	}
 }
