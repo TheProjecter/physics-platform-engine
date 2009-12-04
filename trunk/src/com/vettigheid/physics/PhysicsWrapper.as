@@ -76,9 +76,9 @@ package com.vettigheid.physics
 			var dbgDraw:b2DebugDraw = new b2DebugDraw();
 			dbgDraw.m_sprite = _debugSprite;
 			dbgDraw.m_drawScale = 30.0;
-			dbgDraw.m_fillAlpha = 0.8;
-			dbgDraw.m_lineThickness = 1.0;
-			dbgDraw.m_drawFlags = 0xFFFFFFFF;
+			dbgDraw.m_fillAlpha = 0.6;
+			dbgDraw.m_lineThickness = 0;
+			dbgDraw.m_drawFlags = 0x00ffffff;
 			_world.SetDebugDraw(dbgDraw);
 		}
 	}

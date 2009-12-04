@@ -11,6 +11,8 @@ package com.vettigheid.physics.component
 	{
 		private var _grounded:Boolean = false;
 		private var _jumping:Boolean = false;
+		private var _wallLeft:Boolean = false;
+		private var _wallRight:Boolean = false;
 		
 		public function PlayerPhysicsComponent()
 		{
@@ -40,6 +42,16 @@ package com.vettigheid.physics.component
 			{
 				_grounded = true;
 			}
+			
+			if(point.normal.x <= 1 && point.normal.x > 0)
+			{
+				_wallLeft = true;
+			}
+			
+			if(point.normal.x >= -1 && point.normal.x < 0)
+			{
+				_wallRight = true;
+			}
 		}
 		
 		public function collisionFloorPersistHandler(point:b2ContactPoint=null):void
@@ -48,28 +60,51 @@ package com.vettigheid.physics.component
 			{
 				_grounded = true;
 			}
+			
+			if(point.normal.x <= 1 && point.normal.x > 0)
+			{
+				_wallLeft = true;
+			}
+			
+			if(point.normal.x >= -1 && point.normal.x < 0)
+			{
+				_wallRight = true;
+			}
 		}
 		
 		public function collisionFloorRemoveHandler(point:b2ContactPoint=null):void
 		{
-			_grounded = false;
+			if(point.normal.y >= -1 && point.normal.y < 0)
+			{
+				_grounded = false;
+			}
+			
+			if(point.normal.x <= 1 && point.normal.x > 0)
+			{
+				_wallLeft = false;
+			}
+			
+			if(point.normal.x >= -1 && point.normal.x < 0)
+			{
+				_wallRight = false;
+			}
 		}
 		
 		public function move(directions:Array):void
 		{
 			body.WakeUp();
 			
-			if(directions[KeyboardCommand.LEFT])
+			if(directions[KeyboardCommand.LEFT] && _grounded && !_wallLeft)
 			{
 				this.setLinearVelocity(-3, body.GetLinearVelocity().y);
 			}
 			
-			if(directions[KeyboardCommand.RIGHT])
+			if(directions[KeyboardCommand.RIGHT] && _grounded && !_wallRight)
 			{
 				this.setLinearVelocity(3, body.GetLinearVelocity().y);
 			}
 			
-			if(directions[KeyboardCommand.UP] && !_jumping)
+			if(directions[KeyboardCommand.UP] && _grounded && !_jumping)
 			{
 				this.setLinearVelocity(body.GetLinearVelocity().x, -7);
 				_jumping = true;
