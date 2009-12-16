@@ -7,10 +7,12 @@
 	applicationComplete="handleApplicationComplete()"
 	width="520"
 	height="360"
+	frameRate="30"
 >
 	
 	<mx:Script>
 		<![CDATA[
+			import com.vettigheid.utils.Stats;
 			import com.vettigheid.physics.component.PlayerPhysicsComponent;
 			import com.vettigheid.engine.view.DebugView;
 			import com.vettigheid.physics.PhysicsWrapper;
@@ -23,6 +25,9 @@
 			
 			private function handleApplicationComplete():void
 			{
+				// Show the Statistics for this Application
+				this.rawChildren.addChild(new Stats);
+				
 				// Get a reference to the ModelLocator
 				model = ModelLocator.getInstance();
 				
