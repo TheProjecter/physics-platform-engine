@@ -8,6 +8,8 @@ package com.vettigheid.physics.component
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
 	
+	import com.vettigheid.engine.vo.AbstractValueObject;
+	
 	import flash.geom.Point;
 	
 	public class AbstractPhysicsComponent
@@ -16,6 +18,7 @@ package com.vettigheid.physics.component
 		private var _bodydef:b2BodyDef;
 		private var _mass:b2MassData;
 		private var _shape:b2ShapeDef;
+		private var _vo:AbstractValueObject;
 		
 		public function AbstractPhysicsComponent(x:Number, y:Number)
 		{
@@ -61,6 +64,16 @@ package com.vettigheid.physics.component
 			
 			_body.CreateShape(_shape);
 			_body.SetMassFromShapes();
+		}
+		
+		public function get vo():AbstractValueObject
+		{
+			return _vo;
+		}
+		
+		public function set vo(value:AbstractValueObject):void
+		{
+			_vo = value;
 		}
 		
 		protected function createBox(width:Number, height:Number, x:Number, y:Number, density:Number, friction:Number, restitution:Number, oriented:Boolean=false):b2ShapeDef

@@ -26,9 +26,9 @@ package com.vettigheid.engine.command
 			physics.addObject("level", levelPhysicsObject);
 			levelPhysicsObject.build(model.gameVO.level.tiles);
 			
-			var playerPhysicsObject:PlayerPhysicsObject = new PlayerPhysicsObject();
-			physics.addObject("player", playerPhysicsObject);
-			playerPhysicsObject.build(model.gameVO.player.position);
+			model.gameVO.player.physics = new PlayerPhysicsObject();
+			physics.addObject("player", model.gameVO.player.physics);
+			PlayerPhysicsObject(model.gameVO.player.physics).build(model.gameVO.player.position);
 			
 			for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
 			{
@@ -36,12 +36,12 @@ package com.vettigheid.engine.command
 				physics.addObject("enemy", enemyPhysicsObject);
 				enemyPhysicsObject.build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
 				
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, enemyPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionEnemyAddHandler));	
+				physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, enemyPhysicsObject, PhysicsCollision.ADD, PlayerPhysicsObject(model.gameVO.player.physics).collisionEnemyAddHandler));	
 			}
 			
-			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
-			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
-			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
+			physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, levelPhysicsObject, PhysicsCollision.ADD, PlayerPhysicsObject(model.gameVO.player.physics).collisionFloorAddHandler));
+			physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, levelPhysicsObject, PhysicsCollision.PERSIST, PlayerPhysicsObject(model.gameVO.player.physics).collisionFloorPersistHandler));
+			physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, levelPhysicsObject, PhysicsCollision.REMOVE, PlayerPhysicsObject(model.gameVO.player.physics).collisionFloorRemoveHandler));
 			
 			model.gameVO.ready = true;
 		}
