@@ -38,13 +38,13 @@ package com.vettigheid.physics
 			_collisionListener.addCollision(collision);
 		}
 
-		public function addComponent(name:String, component:AbstractPhysicsComponent):void
+		public function addObject(name:String, component:AbstractPhysicsComponent):void
 		{
 			component.body = _world.CreateBody(component.bodydef);
 			_components[name] = component;
 		}
 		
-		public function getComponent(name:String):AbstractPhysicsComponent
+		public function getObject(name:String):AbstractPhysicsComponent
 		{
 			return _components[name];
 		}

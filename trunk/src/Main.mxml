@@ -12,8 +12,9 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import com.vettigheid.physics.objects.EnemyPhysicsObject;
+			import com.vettigheid.physics.objects.PlayerPhysicsObject;
 			import com.vettigheid.utils.Stats;
-			import com.vettigheid.physics.component.PlayerPhysicsComponent;
 			import com.vettigheid.engine.view.DebugView;
 			import com.vettigheid.physics.PhysicsWrapper;
 			import com.vettigheid.engine.view.ViewManager;
@@ -65,7 +66,10 @@
 				if(model.gameVO != null && model.gameVO.ready)
 				{
 					// Move the player correspondending to the keyboard presses
-					PlayerPhysicsComponent(model.physics.getComponent("player")).move(model.keys);
+					PlayerPhysicsObject(model.physics.getObject("player")).move(model.keys);
+					
+					// Move all enemies in the level
+					EnemyPhysicsObject(model.physics.getObject("enemy")).move();
 					
 					// Render the Box2D Physics Engine
 					model.physics.render();

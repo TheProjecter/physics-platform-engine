@@ -3,6 +3,7 @@ package com.vettigheid.engine.command
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.vettigheid.engine.event.LevelEvent;
+	import com.vettigheid.engine.vo.EnemyValueObject;
 	import com.vettigheid.engine.vo.GameValueObject;
 	import com.vettigheid.engine.vo.LevelValueObject;
 	import com.vettigheid.engine.vo.PlayerValueObject;
@@ -33,10 +34,12 @@ package com.vettigheid.engine.command
 			
 			var levelVO:LevelValueObject = new LevelValueObject(tiles);
 			
-			var position:Point = new Point(260, 100);
-			var playerVO:PlayerValueObject = new PlayerValueObject(position);
+			var playerVO:PlayerValueObject = new PlayerValueObject(new Point(260, 100));
 			
-			model.gameVO = new GameValueObject(levelVO, playerVO);
+			var enemies:Array = new Array();
+			enemies.push(new EnemyValueObject(new Point(340,320), new Point(300, 320), new Point(360, 320)));
+			
+			model.gameVO = new GameValueObject(levelVO, playerVO, enemies);
 			
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);
 			levelEvent.dispatch();

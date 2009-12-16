@@ -43,7 +43,7 @@ package com.vettigheid.physics.component
 			_mass = value;
 			_body.SetMass(_mass);
 		}
-		
+
 		public function set position(value:Point):void
 		{
 			_body.SetXForm(new b2Vec2(value.x / 30, value.y / 30), 0);
