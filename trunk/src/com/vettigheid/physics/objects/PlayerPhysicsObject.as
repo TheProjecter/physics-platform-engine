@@ -37,7 +37,7 @@ package com.vettigheid.physics.objects
 		
 		public function collisionEnemyAddHandler(point:b2ContactPoint=null):void
 		{
-			respawn();
+			this._respawn = true;
 		}
 		
 		public function collisionFloorAddHandler(point:b2ContactPoint=null):void
@@ -88,6 +88,12 @@ package com.vettigheid.physics.objects
 			{
 				_jumping = false;
 			}
+		}
+		
+		override public function respawn():void
+		{
+			_grounded = false;
+			super.respawn();
 		}
 	}
 }

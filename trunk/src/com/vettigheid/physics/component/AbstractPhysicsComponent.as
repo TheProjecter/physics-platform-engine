@@ -46,6 +46,7 @@ package com.vettigheid.physics.component
 
 		public function set position(value:Point):void
 		{
+			_body.SetLinearVelocity(new b2Vec2(0, 0));
 			_body.SetXForm(new b2Vec2(value.x / 30, value.y / 30), 0);
 		}
 		

@@ -6,6 +6,8 @@ package com.vettigheid.physics.component
 	
 	public class DynamicPhysicsComponent extends AbstractPhysicsComponent
 	{
+		public var _respawn:Boolean = false;
+		
 		private var _speed:Point;
 		
 		public function DynamicPhysicsComponent(x:Number, y:Number, speed:Point)
@@ -14,16 +16,17 @@ package com.vettigheid.physics.component
 		
 			_speed = speed;
 		}
+				
+		public function respawn():void
+		{
+			this.position = new Point(150, 60);
+			_respawn = false;
+		}
 		
 		public function get speed():Point
 		{
 			return _speed;
 		}
-				
-		public function respawn():void
-		{
-			this.position = new Point(10, 10);
-		}		
 				
 		protected function setLinearVelocity(x:Number, y:Number):void
 		{
