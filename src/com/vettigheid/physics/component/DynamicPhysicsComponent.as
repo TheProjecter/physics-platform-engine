@@ -19,7 +19,7 @@ package com.vettigheid.physics.component
 				
 		public function respawn():void
 		{
-			this.position = new Point(150, 60);
+			this.position = vo.position;
 			_respawn = false;
 		}
 		

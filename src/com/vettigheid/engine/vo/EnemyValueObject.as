@@ -4,17 +4,17 @@ package com.vettigheid.engine.vo
 	
 	import flash.geom.Point;
 
-	public class EnemyValueObject implements IValueObject
+	public class EnemyValueObject extends AbstractValueObject implements IValueObject
 	{
 		private var _maximal:Point;
 		private var _minimal:Point;
-		private var _position:Point;
 		
 		public function EnemyValueObject(position:Point, minimal:Point, maximal:Point)
 		{
+			super(position);
+			
 			_maximal = maximal;
 			_minimal = minimal;
-			_position = position;
 		}
 	
 		public function get maximal():Point
@@ -25,11 +25,6 @@ package com.vettigheid.engine.vo
 		public function get minimal():Point
 		{
 			return _minimal;
-		}
-		
-		public function get position():Point
-		{
-			return _position;
 		}
 	}
 }
