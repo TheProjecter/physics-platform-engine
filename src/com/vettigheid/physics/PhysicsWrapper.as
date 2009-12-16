@@ -8,8 +8,10 @@ package com.vettigheid.physics
 	import com.vettigheid.physics.collision.PhysicsCollision;
 	import com.vettigheid.physics.collision.PhysicsCollisionListener;
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
+	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	
 	public class PhysicsWrapper
 	{
@@ -51,6 +53,17 @@ package com.vettigheid.physics
 		
 		public function render():void
 		{
+			for each(var component:AbstractPhysicsComponent in _components)
+			{
+				if(component is DynamicPhysicsComponent)
+				{
+					if(DynamicPhysicsComponent(component)._respawn)
+					{
+						DynamicPhysicsComponent(component).respawn();
+					}
+				}
+			}
+			
 			_world.Step(_timeStep, _iterations);
 		}
 		
