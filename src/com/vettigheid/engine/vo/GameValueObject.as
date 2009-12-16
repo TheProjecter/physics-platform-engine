@@ -4,14 +4,21 @@ package com.vettigheid.engine.vo
 
 	public class GameValueObject implements IValueObject
 	{
+		private var _enemies:Array;
 		private var _level:LevelValueObject;
 		private var _player:PlayerValueObject;
 		private var _ready:Boolean = false;
 		
-		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject)
+		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array)
 		{
+			_enemies = enemies;
 			_level = level;
 			_player = player;
+		}
+		
+		public function get enemies():Array
+		{
+			return _enemies;
 		}
 		
 		public function get level():LevelValueObject

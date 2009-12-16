@@ -1,10 +1,10 @@
-package com.vettigheid.physics.component
+package com.vettigheid.physics.objects
 {
-	import Box2D.Collision.Shapes.b2PolygonDef;
+	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	
-	public class LevelPhysicsComponent extends AbstractPhysicsComponent
+	public class LevelPhysicsObject extends AbstractPhysicsComponent
 	{
-		public function LevelPhysicsComponent()
+		public function LevelPhysicsObject()
 		{
 			super(0, 0);
 		}

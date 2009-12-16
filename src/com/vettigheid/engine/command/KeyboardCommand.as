@@ -3,7 +3,7 @@ package com.vettigheid.engine.command
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.vettigheid.engine.event.KeyEvent;
-	import com.vettigheid.physics.component.PlayerPhysicsComponent;
+	import com.vettigheid.physics.objects.PlayerPhysicsObject;
 
 	public class KeyboardCommand extends AbstractCommand implements ICommand
 	{
@@ -20,7 +20,7 @@ package com.vettigheid.engine.command
 		public function execute(event:CairngormEvent):void
 		{
 			var e:KeyEvent = event as KeyEvent;
-			var player:PlayerPhysicsComponent = model.physics.getComponent("player") as PlayerPhysicsComponent;
+			var player:PlayerPhysicsObject = model.physics.getObject("player") as PlayerPhysicsObject;
 			
 			if(e.type == KeyEvent.DOWN)
 			{

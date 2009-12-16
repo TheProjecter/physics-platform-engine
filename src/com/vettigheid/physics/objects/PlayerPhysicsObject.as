@@ -1,20 +1,21 @@
-package com.vettigheid.physics.component
+package com.vettigheid.physics.objects
 {
 	import Box2D.Collision.Shapes.b2MassData;
 	import Box2D.Collision.b2ContactPoint;
 	
 	import com.vettigheid.engine.command.KeyboardCommand;
+	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	
 	import flash.geom.Point;
 	
-	public class PlayerPhysicsComponent extends DynamicPhysicsComponent
+	public class PlayerPhysicsObject extends DynamicPhysicsComponent
 	{
 		private var _grounded:Boolean = false;
 		private var _jumping:Boolean = false;
 		
-		public function PlayerPhysicsComponent()
+		public function PlayerPhysicsObject()
 		{
-			super(0, 0);
+			super(0, 0, new Point(3, 7));
 		}
 		
 		public function build(position:Point):void
@@ -32,6 +33,11 @@ package com.vettigheid.physics.component
 			
 			// Not quite sure what this does
 			this.body.m_linearDamping = 1;
+		}
+		
+		public function collisionEnemyAddHandler(point:b2ContactPoint=null):void
+		{
+			respawn();
 		}
 		
 		public function collisionFloorAddHandler(point:b2ContactPoint=null):void
@@ -64,17 +70,17 @@ package com.vettigheid.physics.component
 			
 			if(directions[KeyboardCommand.LEFT] && _grounded)
 			{
-				this.setLinearVelocity(-3, body.GetLinearVelocity().y);
+				this.setLinearVelocity(-speed.x, body.GetLinearVelocity().y);
 			}
 			
 			if(directions[KeyboardCommand.RIGHT] && _grounded)
 			{
-				this.setLinearVelocity(3, body.GetLinearVelocity().y);
+				this.setLinearVelocity(speed.x, body.GetLinearVelocity().y);
 			}
 			
 			if(directions[KeyboardCommand.UP] && _grounded && !_jumping)
 			{
-				this.setLinearVelocity(body.GetLinearVelocity().x, -7);
+				this.setLinearVelocity(body.GetLinearVelocity().x, -speed.y);
 				_jumping = true;
 			}
 			
