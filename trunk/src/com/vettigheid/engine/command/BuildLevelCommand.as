@@ -4,9 +4,11 @@ package com.vettigheid.engine.command
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.vettigheid.engine.view.GameView;
 	import com.vettigheid.engine.vo.EnemyValueObject;
+	import com.vettigheid.engine.vo.ItemValueObject;
 	import com.vettigheid.physics.PhysicsWrapper;
 	import com.vettigheid.physics.collision.PhysicsCollision;
 	import com.vettigheid.physics.objects.EnemyPhysicsObject;
+	import com.vettigheid.physics.objects.ItemPhysicsObject;
 	import com.vettigheid.physics.objects.LevelPhysicsObject;
 	import com.vettigheid.physics.objects.PlayerPhysicsObject;
 		
@@ -26,25 +28,29 @@ package com.vettigheid.engine.command
 			physics.addObject("level", levelPhysicsObject);
 			levelPhysicsObject.build(model.gameVO.level.tiles);
 			
-			model.gameVO.player.physics = new PlayerPhysicsObject();
-			physics.addObject("player", model.gameVO.player.physics);
-			PlayerPhysicsObject(model.gameVO.player.physics).build(model.gameVO.player.position);
+			var playerPhysicsObject:PlayerPhysicsObject = new PlayerPhysicsObject();
+			physics.addObject(model.gameVO.player.name, playerPhysicsObject);
+			playerPhysicsObject.build(model.gameVO.player.position);
 			
-			var i:int = 1;
+			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
+			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
+			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
+			
 			for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
 			{
-				enemyVO.physics = new EnemyPhysicsObject();
-				physics.addObject("enemy_" + i, enemyVO.physics);
-				EnemyPhysicsObject(enemyVO.physics).build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
+				var enemyPhysicsObject:EnemyPhysicsObject = new EnemyPhysicsObject();
+				physics.addObject(enemyVO.name, enemyPhysicsObject);
+				enemyPhysicsObject.build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
 				
-				physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, enemyVO.physics, PhysicsCollision.ADD, PlayerPhysicsObject(model.gameVO.player.physics).collisionEnemyAddHandler));	
-				
-				i++;
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, enemyPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionEnemyAddHandler));	
 			}
 			
-			physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, levelPhysicsObject, PhysicsCollision.ADD, PlayerPhysicsObject(model.gameVO.player.physics).collisionFloorAddHandler));
-			physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, levelPhysicsObject, PhysicsCollision.PERSIST, PlayerPhysicsObject(model.gameVO.player.physics).collisionFloorPersistHandler));
-			physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, levelPhysicsObject, PhysicsCollision.REMOVE, PlayerPhysicsObject(model.gameVO.player.physics).collisionFloorRemoveHandler));
+			for each(var itemVO:ItemValueObject in model.gameVO.items)
+			{
+				var itemPhysicsObject:ItemPhysicsObject = new ItemPhysicsObject();
+				physics.addObject(itemVO.name, itemPhysicsObject);
+				itemPhysicsObject.build(itemVO.position);
+			}
 			
 			model.gameVO.ready = true;
 		}

@@ -64,15 +64,17 @@
 			
 			private function handleEnterFrame(e:Event):void
 			{
+				//TODO: Do not have this mass-ass loop here in the Main file
 				if(model.gameVO != null && model.gameVO.ready)
 				{
 					// Move the player correspondending to the keyboard presses
-					PlayerPhysicsObject(model.physics.getObject("player")).move(model.keys);
+					PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).move(model.keys);
 					
 					// Move all enemies in the level
 					for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
 					{
-						EnemyPhysicsObject(enemyVO.physics).move();
+						var enemyPhysicsObject:EnemyPhysicsObject = model.physics.getObject(enemyVO.name) as EnemyPhysicsObject;
+						enemyPhysicsObject.move();
 					}
 					
 					// Render the Box2D Physics Engine

@@ -7,23 +7,19 @@ package com.vettigheid.engine.vo
 
 	public class AbstractValueObject implements IValueObject
 	{
+		private var _name:String;
 		private var _physics:AbstractPhysicsComponent;
 		private var _position:Point;
 		
-		public function AbstractValueObject(position:Point)
+		public function AbstractValueObject(name:String, position:Point)
 		{
+			_name = name;
 			_position = position;
 		}
 		
-		public function get physics():AbstractPhysicsComponent
+		public function get name():String
 		{
-			return _physics;
-		}
-		
-		public function set physics(value:AbstractPhysicsComponent):void
-		{
-			_physics = value;
-			_physics.vo = this;
+			return _name;
 		}
 		
 		public function get position():Point

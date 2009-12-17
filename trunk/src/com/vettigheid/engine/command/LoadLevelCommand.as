@@ -5,6 +5,7 @@ package com.vettigheid.engine.command
 	import com.vettigheid.engine.event.LevelEvent;
 	import com.vettigheid.engine.vo.EnemyValueObject;
 	import com.vettigheid.engine.vo.GameValueObject;
+	import com.vettigheid.engine.vo.ItemValueObject;
 	import com.vettigheid.engine.vo.LevelValueObject;
 	import com.vettigheid.engine.vo.PlayerValueObject;
 	
@@ -34,13 +35,16 @@ package com.vettigheid.engine.command
 			
 			var levelVO:LevelValueObject = new LevelValueObject(tiles);
 			
-			var playerVO:PlayerValueObject = new PlayerValueObject(new Point(260, 100));
+			var playerVO:PlayerValueObject = new PlayerValueObject("Player", new Point(40, 80));
 			
 			var enemies:Array = new Array();
-			enemies.push(new EnemyValueObject(new Point(340, 320), new Point(300, 320), new Point(360, 320)));
-			enemies.push(new EnemyValueObject(new Point(120, 320), new Point(80, 320), new Point(160, 320)));
+			enemies.push(new EnemyValueObject("Enemy_1", new Point(320, 280), new Point(280, 280), new Point(360, 280)));
+			enemies.push(new EnemyValueObject("Enemy_2", new Point(80, 280), new Point(40, 280), new Point(120, 280)));
 			
-			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, new Array());
+			var items:Array = new Array();
+			//items.push(new ItemValueObject("Item_1", new Point(160, 280)));
+			
+			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items);
 			
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);
 			levelEvent.dispatch();
