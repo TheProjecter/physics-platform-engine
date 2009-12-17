@@ -30,13 +30,16 @@ package com.vettigheid.engine.command
 			physics.addObject("player", model.gameVO.player.physics);
 			PlayerPhysicsObject(model.gameVO.player.physics).build(model.gameVO.player.position);
 			
+			var i:int = 1;
 			for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
 			{
-				var enemyPhysicsObject:EnemyPhysicsObject = new EnemyPhysicsObject();
-				physics.addObject("enemy", enemyPhysicsObject);
-				enemyPhysicsObject.build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
+				enemyVO.physics = new EnemyPhysicsObject();
+				physics.addObject("enemy_" + i, enemyVO.physics);
+				EnemyPhysicsObject(enemyVO.physics).build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
 				
-				physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, enemyPhysicsObject, PhysicsCollision.ADD, PlayerPhysicsObject(model.gameVO.player.physics).collisionEnemyAddHandler));	
+				physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, enemyVO.physics, PhysicsCollision.ADD, PlayerPhysicsObject(model.gameVO.player.physics).collisionEnemyAddHandler));	
+				
+				i++;
 			}
 			
 			physics.addCollision(new PhysicsCollision(model.gameVO.player.physics, levelPhysicsObject, PhysicsCollision.ADD, PlayerPhysicsObject(model.gameVO.player.physics).collisionFloorAddHandler));
