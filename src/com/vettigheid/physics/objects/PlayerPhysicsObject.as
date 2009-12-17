@@ -15,21 +15,26 @@ package com.vettigheid.physics.objects
 		
 		public function PlayerPhysicsObject()
 		{
-			super(0, 0, new Point(3, 7));
+			super();
 		}
 		
 		public function build(position:Point):void
 		{
+			var radius:Number = 35;
+			
 			// Create a circle shape correspondening to the size of the player
-			this.shape = this.createCircle(35, 1, 1, .1);
+			this.shape = this.createCircle(radius, 1, 1, .1);
 			
 			// The massData makes sure that the player has a fixed rotation
 			var massData:b2MassData = new b2MassData();
 			massData.mass = 1;
 			this.mass = massData;
-			
+
 			// Set the player to its position in the level
-			this.position = position;
+			this.position = new Point(position.x + (radius / 2), position.y + (radius / 2));
+			
+			// Set the players movement speed
+			this.speed = new Point(3, 7);
 			
 			// Not quite sure what this does
 			this.body.m_linearDamping = 1;

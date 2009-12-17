@@ -10,22 +10,25 @@ package com.vettigheid.physics.component
 		
 		private var _speed:Point;
 		
-		public function DynamicPhysicsComponent(x:Number, y:Number, speed:Point)
+		public function DynamicPhysicsComponent()
 		{
-			super(x, y);
-		
-			_speed = speed;
+			super();
 		}
 				
 		public function respawn():void
 		{
-			this.position = vo.position;
+			this.position = this.position;
 			_respawn = false;
 		}
 		
 		public function get speed():Point
 		{
 			return _speed;
+		}
+		
+		public function set speed(value:Point):void
+		{
+			_speed = value;
 		}
 				
 		protected function setLinearVelocity(x:Number, y:Number):void

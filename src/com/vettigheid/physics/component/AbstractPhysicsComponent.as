@@ -17,13 +17,13 @@ package com.vettigheid.physics.component
 		private var _body:b2Body;
 		private var _bodydef:b2BodyDef;
 		private var _mass:b2MassData;
+		private var _position:Point;
 		private var _shape:b2ShapeDef;
 		private var _vo:AbstractValueObject;
 		
-		public function AbstractPhysicsComponent(x:Number, y:Number)
+		public function AbstractPhysicsComponent()
 		{
 			_bodydef = new b2BodyDef();	
-			_bodydef.position.Set(x / 30, y / 30);
 		}
 		
 		public function get body():b2Body
@@ -47,8 +47,15 @@ package com.vettigheid.physics.component
 			_body.SetMass(_mass);
 		}
 
+		public function get position():Point
+		{
+			return _position;
+		}
+
 		public function set position(value:Point):void
 		{
+			_position = value;
+			
 			_body.SetLinearVelocity(new b2Vec2(0, 0));
 			_body.SetXForm(new b2Vec2(value.x / 30, value.y / 30), 0);
 		}
@@ -65,17 +72,7 @@ package com.vettigheid.physics.component
 			_body.CreateShape(_shape);
 			_body.SetMassFromShapes();
 		}
-		
-		public function get vo():AbstractValueObject
-		{
-			return _vo;
-		}
-		
-		public function set vo(value:AbstractValueObject):void
-		{
-			_vo = value;
-		}
-		
+				
 		protected function createBox(width:Number, height:Number, x:Number, y:Number, density:Number, friction:Number, restitution:Number, oriented:Boolean=false):b2ShapeDef
 		{
 			var box:b2PolygonDef = new b2PolygonDef();

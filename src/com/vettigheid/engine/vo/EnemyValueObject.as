@@ -9,9 +9,9 @@ package com.vettigheid.engine.vo
 		private var _maximal:Point;
 		private var _minimal:Point;
 		
-		public function EnemyValueObject(position:Point, minimal:Point, maximal:Point)
+		public function EnemyValueObject(name:String, position:Point, minimal:Point, maximal:Point)
 		{
-			super(position);
+			super(name, position);
 			
 			_maximal = maximal;
 			_minimal = minimal;

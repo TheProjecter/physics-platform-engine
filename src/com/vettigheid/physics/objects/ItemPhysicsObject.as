@@ -8,12 +8,16 @@ package com.vettigheid.physics.objects
 	{
 		public function ItemPhysicsObject()
 		{
+			super();
 		}
 		
 		public function build(position:Point):void
 		{
 			// Create a circle shape correspondening to the size of the item
-			this.shape = this.createCircle(35, 1, 1, .1);	
+			this.shape = this.createCircle(35, 0, 1, .1);	
+			
+			// Set the item to its position in the level
+			this.position = position;
 		}
 	}
 }
