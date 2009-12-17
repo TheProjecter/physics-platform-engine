@@ -12,6 +12,7 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import com.vettigheid.engine.vo.EnemyValueObject;
 			import com.vettigheid.physics.objects.EnemyPhysicsObject;
 			import com.vettigheid.physics.objects.PlayerPhysicsObject;
 			import com.vettigheid.utils.Stats;
@@ -69,7 +70,10 @@
 					PlayerPhysicsObject(model.physics.getObject("player")).move(model.keys);
 					
 					// Move all enemies in the level
-					EnemyPhysicsObject(model.physics.getObject("enemy")).move();
+					for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
+					{
+						EnemyPhysicsObject(enemyVO.physics).move();
+					}
 					
 					// Render the Box2D Physics Engine
 					model.physics.render();

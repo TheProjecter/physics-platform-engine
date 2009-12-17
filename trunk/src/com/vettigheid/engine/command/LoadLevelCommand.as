@@ -37,9 +37,10 @@ package com.vettigheid.engine.command
 			var playerVO:PlayerValueObject = new PlayerValueObject(new Point(260, 100));
 			
 			var enemies:Array = new Array();
-			enemies.push(new EnemyValueObject(new Point(340,320), new Point(300, 320), new Point(360, 320)));
+			enemies.push(new EnemyValueObject(new Point(340, 320), new Point(300, 320), new Point(360, 320)));
+			enemies.push(new EnemyValueObject(new Point(120, 320), new Point(80, 320), new Point(160, 320)));
 			
-			model.gameVO = new GameValueObject(levelVO, playerVO, enemies);
+			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, new Array());
 			
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);
 			levelEvent.dispatch();
