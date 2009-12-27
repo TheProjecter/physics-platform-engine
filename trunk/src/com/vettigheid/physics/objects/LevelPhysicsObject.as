@@ -22,7 +22,7 @@ package com.vettigheid.physics.objects
 					if(data[i][j] == 1)
 					{
 						// TODO: Make the tilesize a variable
-						this.shape = this.createBox(40, 40, j * 40 + 20, i * 40 + 20, 0, .5, .2, true);
+						this.shape = this.createBox(model.tileSize, model.tileSize, j * model.tileSize + model.tileSize / 2, i * model.tileSize + model.tileSize / 2, 0, .5, .2, true);
 					}
 				}
 			}
