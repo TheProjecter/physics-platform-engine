@@ -47,9 +47,11 @@ package com.vettigheid.engine.command
 			
 			for each(var itemVO:ItemValueObject in model.gameVO.items)
 			{
-				var itemPhysicsObject:ItemPhysicsObject = new ItemPhysicsObject();
+				var itemPhysicsObject:ItemPhysicsObject = new ItemPhysicsObject(itemVO.name);
 				physics.addObject(itemVO.name, itemPhysicsObject);
 				itemPhysicsObject.build(itemVO.position);
+				
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, itemPhysicsObject, PhysicsCollision.ADD, itemPhysicsObject.collisionPlayerHandler));
 			}
 			
 			model.gameVO.ready = true;

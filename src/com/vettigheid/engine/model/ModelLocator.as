@@ -14,6 +14,7 @@ package com.vettigheid.engine.model
 		public var gameVO:GameValueObject;
 		public var keys:Array = new Array();
 		public var physics:PhysicsWrapper;
+		public var tileSize:Number = 40;
 		public var views:ViewManager;
 		
 		public function ModelLocator(enforcer:SingletonEnforcer)

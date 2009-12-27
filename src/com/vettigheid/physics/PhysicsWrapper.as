@@ -9,14 +9,15 @@ package com.vettigheid.physics
 	import com.vettigheid.physics.collision.PhysicsCollisionListener;
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
+	import com.vettigheid.physics.component.SensorPhysicsComponent;
 	
 	import flash.display.Sprite;
-	import flash.geom.Point;
+	import flash.utils.Dictionary;
 	
 	public class PhysicsWrapper
 	{
 		private var _collisionListener:PhysicsCollisionListener;
-		private var _components:Array;
+		private var _components:Dictionary;
 		private var _debugSprite:Sprite;
 		private var _iterations:int = 10;
 		private var _timeStep:Number = 1.0 / 30.0;
@@ -27,7 +28,7 @@ package com.vettigheid.physics
 			init();
 			if(debug) initDebug(); 
 			
-			_components = new Array();
+			_components = new Dictionary(true);
 		}
 		
 		public function get debugSprite():Sprite
@@ -46,6 +47,18 @@ package com.vettigheid.physics
 			_components[name] = component;
 		}
 		
+		public function destroyObject(component:AbstractPhysicsComponent):void
+		{
+			for (var key:Object in _components)
+			{
+				if(_components[key] == component)
+				{
+					_world.DestroyBody(component.body);
+					_components[key] = null;
+				}
+			}
+		}
+		
 		public function getObject(name:String):AbstractPhysicsComponent
 		{
 			return _components[name];
@@ -60,6 +73,14 @@ package com.vettigheid.physics
 					if(DynamicPhysicsComponent(component)._respawn)
 					{
 						DynamicPhysicsComponent(component).respawn();
+					}
+				}
+				
+				if(component is SensorPhysicsComponent)
+				{
+					if(SensorPhysicsComponent(component).isHit)
+					{
+						this.destroyObject(component);
 					}
 				}
 			}

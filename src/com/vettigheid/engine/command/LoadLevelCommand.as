@@ -42,7 +42,7 @@ package com.vettigheid.engine.command
 			enemies.push(new EnemyValueObject("Enemy_2", new Point(80, 280), new Point(40, 280), new Point(120, 280)));
 			
 			var items:Array = new Array();
-			//items.push(new ItemValueObject("Item_1", new Point(160, 280)));
+			items.push(new ItemValueObject("Item_1", new Point(160, 240)));
 			
 			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items);
 			
