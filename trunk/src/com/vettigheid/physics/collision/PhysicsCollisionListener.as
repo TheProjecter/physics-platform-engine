@@ -3,12 +3,10 @@ package com.vettigheid.physics.collision
 	import Box2D.Collision.b2ContactPoint;
 	import Box2D.Dynamics.Contacts.b2ContactResult;
 	import Box2D.Dynamics.b2ContactListener;
-	
-	import flash.utils.Dictionary;
 
 	public class PhysicsCollisionListener extends b2ContactListener
 	{
-		private var _collisions:Dictionary = new Dictionary(true);
+		private var _collisions:Array = new Array();
 		
 		override public virtual function Add(point:b2ContactPoint):void
 		{
