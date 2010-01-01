@@ -1,6 +1,7 @@
 package com.vettigheid.engine.view
 {
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	
 	public class DebugView extends AbstractView
 	{
@@ -19,6 +20,12 @@ package com.vettigheid.engine.view
 			{
 				this.addChild(_physicsDebugSprite);
 			}
+		}
+		
+		public function set position(value:Point):void
+		{
+			this.x = value.x;
+			this.y = value.y;
 		}
 	}
 }

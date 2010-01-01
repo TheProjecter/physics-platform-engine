@@ -23,7 +23,10 @@ package com.vettigheid.engine.command
 		
 		public function execute(event:CairngormEvent):void
 		{
-			var levelView:GameView = model.views.getView("levelView") as GameView;
+			var gameView:GameView = model.views.getView("gameView") as GameView;
+			gameView.gameWidth = model.gameVO.level.width * model.tileSize;
+			gameView.gameHeight = model.gameVO.level.height * model.tileSize;
+			
 			var physics:PhysicsWrapper = model.physics;
 			
 			var levelPhysicsObject:LevelPhysicsObject = new LevelPhysicsObject();
