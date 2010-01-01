@@ -84,6 +84,8 @@ package com.vettigheid.physics
 			{
 				if(component is DynamicPhysicsComponent)
 				{
+					DynamicPhysicsComponent(component).move();
+					
 					if(DynamicPhysicsComponent(component)._respawn)
 					{
 						DynamicPhysicsComponent(component).respawn();

@@ -41,7 +41,7 @@ package com.vettigheid.physics.objects
 			this.body.m_linearDamping = 1;
 		}
 		
-		public function move():void
+		override public function move():void
 		{
 			//TODO: Make sure that the enemy change direction when touching a wall
 			body.WakeUp();

@@ -48,8 +48,10 @@ package com.vettigheid.physics.objects
 			_joint = model.physics.addJoint(prismJoint) as b2PrismaticJoint;
 		}
 		
-		public function move():void
+		override public function move():void
 		{
+			// TODO: Fix that the elevator do not get stuck between objects
+			
 			if(_direction == "horizontal")
 			{
 				if(_joint.m_upperTranslation * 30 == Math.round(_joint.GetBody2().GetPosition().x * 30 - position.x))
