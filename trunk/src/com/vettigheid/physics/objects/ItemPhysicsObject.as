@@ -3,18 +3,15 @@ package com.vettigheid.physics.objects
 	import Box2D.Collision.Shapes.b2ShapeDef;
 	import Box2D.Collision.b2ContactPoint;
 	
+	import com.vettigheid.engine.event.ItemEvent;
 	import com.vettigheid.physics.component.SensorPhysicsComponent;
 	
 	import flash.geom.Point;
 	
 	public class ItemPhysicsObject extends SensorPhysicsComponent
 	{
-		private var _name:String;
-		
-		public function ItemPhysicsObject(name:String)
-		{
-			_name = name;
-			
+		public function ItemPhysicsObject()
+		{			
 			super();
 		}
 		
@@ -37,6 +34,9 @@ package com.vettigheid.physics.objects
 		public function collisionPlayerHandler(point:b2ContactPoint=null):void
 		{
 			this.isHit = true;
+			
+			var itemEvent:ItemEvent = new ItemEvent(ItemEvent.ITEM_HIT);
+			itemEvent.dispatch();
 		}
 	}
 }
