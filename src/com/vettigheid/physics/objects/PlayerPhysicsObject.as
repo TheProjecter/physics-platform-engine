@@ -10,12 +10,20 @@ package com.vettigheid.physics.objects
 	
 	public class PlayerPhysicsObject extends DynamicPhysicsComponent
 	{
+		private var _directions:Array;
 		private var _grounded:Boolean = false;
 		private var _jumping:Boolean = false;
 		
 		public function PlayerPhysicsObject()
 		{
+			_directions = new Array();
+			
 			super();
+		}
+		
+		public function set directions(value:Array):void
+		{
+			_directions = value;
 		}
 		
 		public function build(position:Point):void
@@ -69,27 +77,27 @@ package com.vettigheid.physics.objects
 			}
 		}
 		
-		public function move(directions:Array):void
+		override public function move():void
 		{
 			body.WakeUp();
 			
-			if(directions[KeyboardCommand.LEFT] && _grounded)
+			if(_directions[KeyboardCommand.LEFT] && _grounded)
 			{
 				this.setLinearVelocity(-speed.x, body.GetLinearVelocity().y);
 			}
 			
-			if(directions[KeyboardCommand.RIGHT] && _grounded)
+			if(_directions[KeyboardCommand.RIGHT] && _grounded)
 			{
 				this.setLinearVelocity(speed.x, body.GetLinearVelocity().y);
 			}
 			
-			if(directions[KeyboardCommand.UP] && _grounded && !_jumping)
+			if(_directions[KeyboardCommand.UP] && _grounded && !_jumping)
 			{
 				this.setLinearVelocity(body.GetLinearVelocity().x, -speed.y);
 				_jumping = true;
 			}
 			
-			if(!directions[KeyboardCommand.UP] && _grounded)
+			if(!_directions[KeyboardCommand.UP] && _grounded)
 			{
 				_jumping = false;
 			}

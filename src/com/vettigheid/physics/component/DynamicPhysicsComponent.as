@@ -30,7 +30,12 @@ package com.vettigheid.physics.component
 		{
 			_speed = value;
 		}
-				
+		
+		public function move():void
+		{
+			
+		}
+			
 		protected function setLinearVelocity(x:Number, y:Number):void
 		{
 			this.body.SetLinearVelocity(new b2Vec2(x, y));
