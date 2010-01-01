@@ -3,6 +3,7 @@ package com.vettigheid.engine.command
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.vettigheid.engine.event.LevelEvent;
+	import com.vettigheid.engine.vo.ElevatorValueObject;
 	import com.vettigheid.engine.vo.EnemyValueObject;
 	import com.vettigheid.engine.vo.GameValueObject;
 	import com.vettigheid.engine.vo.ItemValueObject;
@@ -25,7 +26,7 @@ package com.vettigheid.engine.command
 				[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-				[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+				[1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
 				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -44,7 +45,11 @@ package com.vettigheid.engine.command
 			var items:Array = new Array();
 			items.push(new ItemValueObject("Item_1", new Point(160, 240)));
 			
-			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items);
+			var elevators:Array = new Array();
+			elevators.push(new ElevatorValueObject("Elevator_1", new Point(160, 120), "horizontal", -1, 2));
+			elevators.push(new ElevatorValueObject("Elevator_2", new Point(440, 120), "vertical", 0, 4));
+			
+			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items, elevators);
 			
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);
 			levelEvent.dispatch();

@@ -12,6 +12,8 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import com.vettigheid.physics.objects.ElevatorPhysicsObject;
+			import com.vettigheid.engine.vo.ElevatorValueObject;
 			import com.vettigheid.engine.vo.EnemyValueObject;
 			import com.vettigheid.physics.objects.EnemyPhysicsObject;
 			import com.vettigheid.physics.objects.PlayerPhysicsObject;
@@ -75,6 +77,12 @@
 					{
 						var enemyPhysicsObject:EnemyPhysicsObject = model.physics.getObject(enemyVO.name) as EnemyPhysicsObject;
 						enemyPhysicsObject.move();
+					}
+					
+					for each(var elevatorVO:ElevatorValueObject in model.gameVO.elevators)
+					{
+						var elevatorPhysicsObject:ElevatorPhysicsObject = model.physics.getObject(elevatorVO.name) as ElevatorPhysicsObject;
+						elevatorPhysicsObject.move();
 					}
 					
 					// Render the Box2D Physics Engine

@@ -2,6 +2,9 @@ package com.vettigheid.physics
 {
 	import Box2D.Collision.b2AABB;
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.Joints.b2Joint;
+	import Box2D.Dynamics.Joints.b2JointDef;
+	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2DebugDraw;
 	import Box2D.Dynamics.b2World;
 	
@@ -10,6 +13,7 @@ package com.vettigheid.physics
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	import com.vettigheid.physics.component.SensorPhysicsComponent;
+	import com.vettigheid.physics.objects.ElevatorPhysicsObject;
 	
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
@@ -36,9 +40,19 @@ package com.vettigheid.physics
 			return _debugSprite;
 		}
 
+		public function get groundBody():b2Body
+		{
+			return _world.GetGroundBody();
+		}
+
 		public function addCollision(collision:PhysicsCollision):void
 		{
 			_collisionListener.addCollision(collision);
+		}
+		
+		public function addJoint(jointDef:b2JointDef):b2Joint
+		{
+			return _world.CreateJoint(jointDef);
 		}
 
 		public function addObject(name:String, component:AbstractPhysicsComponent):void
