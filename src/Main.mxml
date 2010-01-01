@@ -71,6 +71,10 @@
 					// Move the player correspondending to the keyboard presses
 					PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).directions = model.keys;
 					
+					// Move the level according to the movement of the player
+					gameView.position = new Point(PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().x * 30, PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().y * 30);
+					debugView.position = gameView.position;
+					
 					// Render the Box2D Physics Engine
 					model.physics.render();
 				}

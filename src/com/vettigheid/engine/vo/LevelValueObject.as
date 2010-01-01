@@ -1,8 +1,6 @@
 package com.vettigheid.engine.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
-	
-	import flash.geom.Point;
 
 	public class LevelValueObject implements ValueObject
 	{
@@ -13,9 +11,19 @@ package com.vettigheid.engine.vo
 			_tiles = tiles;
 		}
 		
+		public function get height():Number
+		{
+			return _tiles.length - 1;
+		}
+		
 		public function get tiles():Array
 		{
 			return _tiles
+		}
+		
+		public function get width():Number
+		{
+			return _tiles[0].length;
 		}
 	}
 }
