@@ -430,7 +430,7 @@ public class b2Island
 					cr.tangentImpulse = ccp.tangentImpulse;
 					cr.id.key = point.id.key;
 					
-					m_listener.Result(cr);
+					m_listener.Result(cr, c);
 				}
 			}
 		}

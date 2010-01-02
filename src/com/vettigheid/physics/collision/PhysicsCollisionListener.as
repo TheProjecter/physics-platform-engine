@@ -1,6 +1,7 @@
 package com.vettigheid.physics.collision
 {
 	import Box2D.Collision.b2ContactPoint;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	import Box2D.Dynamics.Contacts.b2ContactResult;
 	import Box2D.Dynamics.b2ContactListener;
 
@@ -8,40 +9,40 @@ package com.vettigheid.physics.collision
 	{
 		private var _collisions:Array = new Array();
 		
-		override public virtual function Add(point:b2ContactPoint):void
+		override public virtual function Add(point:b2ContactPoint, contact:b2Contact):void
 		{
 			for each(var collision:PhysicsCollision in _collisions)
 			{
 				if(collision.type == PhysicsCollision.ADD && checkCollision(collision, point))
 				{
-					collision.onCollision(point);
+					collision.onCollision(point, contact);
 				}
 			}
 		}
 		
-		override public virtual function Persist(point:b2ContactPoint):void
+		override public virtual function Persist(point:b2ContactPoint, contact:b2Contact):void
 		{
 			for each(var collision:PhysicsCollision in _collisions)
 			{
 				if(collision.type == PhysicsCollision.PERSIST && checkCollision(collision, point))
 				{
-					collision.onCollision(point);
+					collision.onCollision(point, contact);
 				}
 			}
 		}
 		
-		override public virtual function Remove(point:b2ContactPoint):void
+		override public virtual function Remove(point:b2ContactPoint, contact:b2Contact):void
 		{
 			for each(var collision:PhysicsCollision in _collisions)
 			{
 				if(collision.type == PhysicsCollision.REMOVE && checkCollision(collision, point))
 				{
-					collision.onCollision(point);
+					collision.onCollision(point, contact);
 				}
 			}	
 		}
 		
-		override public virtual function Result(point:b2ContactResult):void
+		override public virtual function Result(point:b2ContactResult, contact:b2Contact):void
 		{
 
 		}

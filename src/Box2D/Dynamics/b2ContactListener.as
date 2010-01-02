@@ -42,18 +42,18 @@ public class b2ContactListener
 
 	/// Called when a contact point is added. This includes the geometry
 	/// and the forces.
-	public virtual function Add(point:b2ContactPoint) : void{};
+	public virtual function Add(point:b2ContactPoint, contact:b2Contact) : void{};
 
 	/// Called when a contact point persists. This includes the geometry
 	/// and the forces.
-	public virtual function Persist(point:b2ContactPoint) : void{};
+	public virtual function Persist(point:b2ContactPoint, contact:b2Contact) : void{};
 
 	/// Called when a contact point is removed. This includes the last
 	/// computed geometry and forces.
-	public virtual function Remove(point:b2ContactPoint) : void{};
+	public virtual function Remove(point:b2ContactPoint, contact:b2Contact) : void{};
 	
 	/// Called after a contact point is solved.
-	public virtual function Result(point:b2ContactResult) : void{};
+	public virtual function Result(point:b2ContactResult, contact:b2Contact) : void{};
 };
 
 }

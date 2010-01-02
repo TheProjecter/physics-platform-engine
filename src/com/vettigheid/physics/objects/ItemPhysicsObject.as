@@ -2,6 +2,7 @@ package com.vettigheid.physics.objects
 {
 	import Box2D.Collision.Shapes.b2ShapeDef;
 	import Box2D.Collision.b2ContactPoint;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	import com.vettigheid.engine.event.ItemEvent;
 	import com.vettigheid.physics.component.SensorPhysicsComponent;
@@ -31,7 +32,7 @@ package com.vettigheid.physics.objects
 			this.position = new Point(position.x + (radius / 2) + (this.model.tileSize / 4), position.y + (radius / 2) + (this.model.tileSize / 4));
 		}
 		
-		public function collisionPlayerHandler(point:b2ContactPoint=null):void
+		public function collisionPlayerHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
 		{
 			this.isHit = true;
 			

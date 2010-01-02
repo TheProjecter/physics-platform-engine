@@ -3,6 +3,7 @@ package com.vettigheid.engine.command
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.vettigheid.engine.event.LevelEvent;
+	import com.vettigheid.engine.vo.CloudValueObject;
 	import com.vettigheid.engine.vo.ElevatorValueObject;
 	import com.vettigheid.engine.vo.EnemyValueObject;
 	import com.vettigheid.engine.vo.GameValueObject;
@@ -40,8 +41,8 @@ package com.vettigheid.engine.command
 			var playerVO:PlayerValueObject = new PlayerValueObject("Player", new Point(40, 80));
 			
 			var enemies:Array = new Array();
-			enemies.push(new EnemyValueObject("Enemy_1", new Point(320, 280), new Point(280, 280), new Point(360, 280)));
-			enemies.push(new EnemyValueObject("Enemy_2", new Point(80, 280), new Point(40, 280), new Point(120, 280)));
+			enemies.push(new EnemyValueObject("Enemy_1", new Point(80, 280), new Point(40, 280), new Point(120, 280)));
+			//enemies.push(new EnemyValueObject("Enemy_2", new Point(320, 280), new Point(280, 280), new Point(360, 280)));
 			
 			var items:Array = new Array();
 			items.push(new ItemValueObject("Item_1", new Point(160, 240)));
@@ -55,7 +56,10 @@ package com.vettigheid.engine.command
 			traps.push(new TrapValueObject("Trap_2", new Point(640, 280)));
 			traps.push(new TrapValueObject("Trap_3", new Point(680, 280)));
 			
-			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items, elevators, traps);
+			var clouds:Array = new Array();
+			clouds.push(new CloudValueObject("Cloud_1", new Point(320, 280)));
+			
+			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items, elevators, traps, clouds);
 			
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);
 			levelEvent.dispatch();

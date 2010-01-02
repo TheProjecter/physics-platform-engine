@@ -2,6 +2,7 @@ package com.vettigheid.physics.objects
 {
 	import Box2D.Collision.Shapes.b2MassData;
 	import Box2D.Collision.b2ContactPoint;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	import com.vettigheid.engine.command.KeyboardCommand;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
@@ -48,12 +49,12 @@ package com.vettigheid.physics.objects
 			this.body.m_linearDamping = 1;
 		}
 		
-		public function collisionEnemyAddHandler(point:b2ContactPoint=null):void
+		public function collisionEnemyAddHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
 		{
 			this._respawn = true;
 		}
 		
-		public function collisionFloorAddHandler(point:b2ContactPoint=null):void
+		public function collisionFloorAddHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
 		{
 			if(point.normal.y >= -1 && point.normal.y < 0)
 			{
@@ -61,7 +62,7 @@ package com.vettigheid.physics.objects
 			}
 		}
 		
-		public function collisionFloorPersistHandler(point:b2ContactPoint=null):void
+		public function collisionFloorPersistHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
 		{
 			if(point.normal.y >= -1 && point.normal.y < 0)
 			{
@@ -69,7 +70,7 @@ package com.vettigheid.physics.objects
 			}
 		}
 		
-		public function collisionFloorRemoveHandler(point:b2ContactPoint=null):void
+		public function collisionFloorRemoveHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
 		{
 			if(point.normal.y >= -1 && point.normal.y < 0)
 			{

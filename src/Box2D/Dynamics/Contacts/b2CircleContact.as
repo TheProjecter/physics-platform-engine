@@ -89,7 +89,7 @@ public class b2CircleContact extends b2Contact
 					cp.normal.SetV(m_manifold.normal);
 					cp.separation = mp.separation;
 					cp.id.key = mp.id._key;
-					listener.Add(cp);
+					listener.Add(cp, this);
 				}
 			} else
 			{
@@ -106,7 +106,7 @@ public class b2CircleContact extends b2Contact
 					cp.normal.SetV(m_manifold.normal);
 					cp.separation = mp.separation;
 					cp.id.key = mp.id._key;
-					listener.Persist(cp);
+					listener.Persist(cp, this);
 				}
 			}
 		}
@@ -123,7 +123,7 @@ public class b2CircleContact extends b2Contact
 				cp.normal.SetV(m0.normal);
 				cp.separation = mp0.separation;
 				cp.id.key = mp0.id._key;
-				listener.Remove(cp);
+				listener.Remove(cp, this);
 			}
 		}
 	}
