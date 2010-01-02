@@ -42,7 +42,7 @@
 				}
 			
 				// Initialize the Physics Module
-				model.physics = new PhysicsWrapper(true);
+				model.physics = new PhysicsWrapper(model.debugMode);
 				// Get a reference to the Box2D DebugSprite
 				debugView.physicsDebugSprite = model.physics.debugSprite;
 				
@@ -71,12 +71,12 @@
 					// Move the player correspondending to the keyboard presses
 					PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).directions = model.keys;
 					
+					// Render the Box2D Physics Engine
+					model.physics.render();
+					
 					// Move the level according to the movement of the player
 					gameView.position = new Point(PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().x * 30, PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().y * 30);
 					debugView.position = gameView.position;
-					
-					// Render the Box2D Physics Engine
-					model.physics.render();
 				}
 			}
 			
@@ -103,7 +103,7 @@
 	
 	<control:EngineController id="engineControl" />
 	
-	<view:DebugView id="debugView" width="520" height="320" />
-	<view:GameView id="gameView" width="520" height="320" />
+	<view:DebugView id="debugView" width="{this.width}" height="{this.height}" />
+	<view:GameView id="gameView" width="{this.width}" height="{this.height}" />
 	
 </mx:Application>
