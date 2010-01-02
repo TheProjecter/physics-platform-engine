@@ -174,7 +174,7 @@ public class b2ContactManager extends b2PairCallback
 					cp.velocity.Set(v2.x - v1.x, v2.y - v1.y);
 					cp.separation = mp.separation;
 					cp.id.key = mp.id._key;
-					m_world.m_contactListener.Remove(cp);
+					m_world.m_contactListener.Remove(cp, c);
 				}
 			}
 		}

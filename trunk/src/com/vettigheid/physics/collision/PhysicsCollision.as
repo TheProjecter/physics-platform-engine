@@ -1,6 +1,7 @@
 package com.vettigheid.physics.collision
 {
 	import Box2D.Collision.b2ContactPoint;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	
@@ -39,9 +40,9 @@ package com.vettigheid.physics.collision
 			return _type;
 		}
 		
-		public function onCollision(point:b2ContactPoint):void
+		public function onCollision(point:b2ContactPoint, contact:b2Contact):void
 		{
-			_onCollision(point);
+			_onCollision(point, contact);
 		}
 	}
 }

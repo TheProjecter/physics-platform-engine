@@ -3,12 +3,14 @@ package com.vettigheid.engine.command
 	import com.adobe.cairngorm.commands.ICommand;
 	import com.adobe.cairngorm.control.CairngormEvent;
 	import com.vettigheid.engine.view.GameView;
+	import com.vettigheid.engine.vo.CloudValueObject;
 	import com.vettigheid.engine.vo.ElevatorValueObject;
 	import com.vettigheid.engine.vo.EnemyValueObject;
 	import com.vettigheid.engine.vo.ItemValueObject;
 	import com.vettigheid.engine.vo.TrapValueObject;
 	import com.vettigheid.physics.PhysicsWrapper;
 	import com.vettigheid.physics.collision.PhysicsCollision;
+	import com.vettigheid.physics.objects.CloudPhysicsObject;
 	import com.vettigheid.physics.objects.ElevatorPhysicsObject;
 	import com.vettigheid.physics.objects.EnemyPhysicsObject;
 	import com.vettigheid.physics.objects.ItemPhysicsObject;
@@ -79,6 +81,21 @@ package com.vettigheid.engine.command
 				trapPhysicsObject.build(trapVO);
 				
 				physics.addCollision(new PhysicsCollision(playerPhysicsObject, trapPhysicsObject, PhysicsCollision.ADD, trapPhysicsObject.collisionPlayerHandler));
+			}
+			
+			for each(var cloudVO:CloudValueObject in model.gameVO.clouds)
+			{
+				var cloudPhysicsObject:CloudPhysicsObject = new CloudPhysicsObject();
+				physics.addObject(cloudVO.name, cloudPhysicsObject);
+				cloudPhysicsObject.build(cloudVO);
+				
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.ADD, cloudPhysicsObject.collisionPlayerAddAndPersistHandler));
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.PERSIST, cloudPhysicsObject.collisionPlayerAddAndPersistHandler));
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.REMOVE, cloudPhysicsObject.collisionPlayerRemoveHandler));
+			
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
 			}
 			
 			model.gameVO.ready = true;

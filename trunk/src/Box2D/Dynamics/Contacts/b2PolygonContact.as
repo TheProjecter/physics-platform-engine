@@ -117,7 +117,7 @@ public class b2PolygonContact extends b2Contact
 							cp.normal.SetV(m_manifold.normal);
 							cp.separation = mp.separation;
 							cp.id.key = idKey;
-							listener.Persist(cp);
+							listener.Persist(cp, this);
 						}
 						break;
 					}
@@ -133,7 +133,7 @@ public class b2PolygonContact extends b2Contact
 					cp.normal.SetV(m_manifold.normal);
 					cp.separation = mp.separation;
 					cp.id.key = idKey;
-					listener.Add(cp);
+					listener.Add(cp, this);
 				}
 			}
 			
@@ -165,7 +165,7 @@ public class b2PolygonContact extends b2Contact
 			cp.normal.SetV(m0.normal);
 			cp.separation = mp0.separation;
 			cp.id.key = mp0.id._key;
-			listener.Remove(cp);
+			listener.Remove(cp, this);
 		}
 	}
 	
