@@ -112,5 +112,22 @@ package com.vettigheid.physics.component
 			// Return the new b2CircleDef
 			return circle;
 		}
+		
+		protected function createPoly(points:Array, x:Number, y:Number, density:Number, friction:Number, restitution:Number):b2PolygonDef
+		{
+			var shape:b2PolygonDef = new b2PolygonDef();
+			shape.vertexCount = points.length;
+			
+			for(var i:int = 0; i < points.length; i++)
+			{
+				shape.vertices[i].Set((x + points[i].x) / 30, (y + points[i].y) / 30);
+			}
+			
+			shape.density = density;
+			shape.friction = friction;
+			shape.restitution = restitution;
+			
+			return shape;
+		}
 	}
 }

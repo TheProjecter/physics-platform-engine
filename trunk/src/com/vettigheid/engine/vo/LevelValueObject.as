@@ -13,7 +13,7 @@ package com.vettigheid.engine.vo
 		
 		public function get height():Number
 		{
-			return _tiles.length - 1;
+			return _tiles.length;
 		}
 		
 		public function get tiles():Array
