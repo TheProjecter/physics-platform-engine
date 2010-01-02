@@ -10,14 +10,16 @@ package com.vettigheid.engine.vo
 		private var _level:LevelValueObject;
 		private var _player:PlayerValueObject;
 		private var _ready:Boolean = false;
+		private var _traps:Array;
 		
-		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array, items:Array, elevators:Array)
+		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array, items:Array, elevators:Array, traps:Array)
 		{
 			_elevators = elevators;
 			_enemies = enemies;
 			_items = items;
 			_level = level;
 			_player = player;
+			_traps = traps;
 		}
 		
 		public function get elevators():Array
@@ -53,6 +55,11 @@ package com.vettigheid.engine.vo
 		public function set ready(value:Boolean):void
 		{
 			_ready = value;
+		}
+		
+		public function get traps():Array
+		{
+			return _traps;
 		}
 	}
 }

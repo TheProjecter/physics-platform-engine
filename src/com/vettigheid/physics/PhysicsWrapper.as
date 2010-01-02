@@ -13,7 +13,8 @@ package com.vettigheid.physics
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	import com.vettigheid.physics.component.SensorPhysicsComponent;
-	import com.vettigheid.physics.objects.ElevatorPhysicsObject;
+	import com.vettigheid.physics.objects.ItemPhysicsObject;
+	import com.vettigheid.physics.objects.TrapPhysicsObject;
 	
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
@@ -96,7 +97,17 @@ package com.vettigheid.physics
 				{
 					if(SensorPhysicsComponent(component).isHit)
 					{
-						this.destroyObject(component);
+						if(component is ItemPhysicsObject)
+						{
+							this.destroyObject(component);
+						}
+						
+						if(component is TrapPhysicsObject)
+						{
+							SensorPhysicsComponent(component).isHit = false;
+							DynamicPhysicsComponent(getObject("Player")).respawn();
+							
+						}
 					}
 				}
 			}
