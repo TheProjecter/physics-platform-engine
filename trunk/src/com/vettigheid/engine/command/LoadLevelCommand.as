@@ -9,6 +9,7 @@ package com.vettigheid.engine.command
 	import com.vettigheid.engine.vo.ItemValueObject;
 	import com.vettigheid.engine.vo.LevelValueObject;
 	import com.vettigheid.engine.vo.PlayerValueObject;
+	import com.vettigheid.engine.vo.TrapValueObject;
 	
 	import flash.geom.Point;
 
@@ -49,7 +50,12 @@ package com.vettigheid.engine.command
 			elevators.push(new ElevatorValueObject("Elevator_1", new Point(160, 120), "horizontal", -1, 2));
 			elevators.push(new ElevatorValueObject("Elevator_2", new Point(440, 120), "vertical", 0, 4));
 			
-			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items, elevators);
+			var traps:Array = new Array();
+			traps.push(new TrapValueObject("Trap_1", new Point(600, 280)));
+			traps.push(new TrapValueObject("Trap_2", new Point(640, 280)));
+			traps.push(new TrapValueObject("Trap_3", new Point(680, 280)));
+			
+			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items, elevators, traps);
 			
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);
 			levelEvent.dispatch();

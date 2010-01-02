@@ -6,6 +6,7 @@ package com.vettigheid.engine.command
 	import com.vettigheid.engine.vo.ElevatorValueObject;
 	import com.vettigheid.engine.vo.EnemyValueObject;
 	import com.vettigheid.engine.vo.ItemValueObject;
+	import com.vettigheid.engine.vo.TrapValueObject;
 	import com.vettigheid.physics.PhysicsWrapper;
 	import com.vettigheid.physics.collision.PhysicsCollision;
 	import com.vettigheid.physics.objects.ElevatorPhysicsObject;
@@ -13,6 +14,7 @@ package com.vettigheid.engine.command
 	import com.vettigheid.physics.objects.ItemPhysicsObject;
 	import com.vettigheid.physics.objects.LevelPhysicsObject;
 	import com.vettigheid.physics.objects.PlayerPhysicsObject;
+	import com.vettigheid.physics.objects.TrapPhysicsObject;
 		
 	public class BuildLevelCommand extends AbstractCommand implements ICommand
 	{
@@ -68,6 +70,15 @@ package com.vettigheid.engine.command
 				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
 				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
 				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
+			}
+			
+			for each(var trapVO:TrapValueObject in model.gameVO.traps)
+			{
+				var trapPhysicsObject:TrapPhysicsObject = new TrapPhysicsObject();
+				physics.addObject(trapVO.name, trapPhysicsObject);
+				trapPhysicsObject.build(trapVO);
+				
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, trapPhysicsObject, PhysicsCollision.ADD, trapPhysicsObject.collisionPlayerHandler));
 			}
 			
 			model.gameVO.ready = true;
