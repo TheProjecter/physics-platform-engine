@@ -4,9 +4,9 @@ package com.vettigheid.physics.component
 	{
 		private var _isHit:Boolean = false;
 		
-		public function SensorPhysicsComponent()
+		public function SensorPhysicsComponent(name:String)
 		{
-			super();
+			super(name);
 		}
 		
 		public function get isHit():Boolean

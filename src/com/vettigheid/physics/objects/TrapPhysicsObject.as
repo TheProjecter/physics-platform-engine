@@ -12,9 +12,9 @@ package com.vettigheid.physics.objects
 
 	public class TrapPhysicsObject extends SensorPhysicsComponent
 	{
-		public function TrapPhysicsObject()
+		public function TrapPhysicsObject(name:String)
 		{
-			super();
+			super(name);
 		}
 		
 		public function build(vo:TrapValueObject):void
@@ -30,7 +30,7 @@ package com.vettigheid.physics.objects
 			this.position = new Point(vo.position.x + model.tileSize / 2, vo.position.y + (model.tileSize - (model.tileSize / 4) / 2));
 		}
 		
-		public function collisionPlayerHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
+		public function collisionPlayerHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
 		{
 			this.isHit = true;
 			

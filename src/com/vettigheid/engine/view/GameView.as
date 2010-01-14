@@ -1,6 +1,7 @@
 package com.vettigheid.engine.view
-{
+{	
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	
 	public class GameView extends AbstractView
 	{

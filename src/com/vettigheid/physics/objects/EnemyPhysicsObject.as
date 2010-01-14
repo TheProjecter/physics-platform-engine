@@ -1,6 +1,8 @@
 package com.vettigheid.physics.objects
 {
 	import Box2D.Collision.Shapes.b2MassData;
+	import Box2D.Collision.b2ContactPoint;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	
@@ -11,9 +13,9 @@ package com.vettigheid.physics.objects
 		private var _minimal:Point;
 		private var _maximal:Point;
 		
-		public function EnemyPhysicsObject()
+		public function EnemyPhysicsObject(name:String)
 		{
-			super();
+			super(name);
 		}
 		
 		public function build(position:Point, minimal:Point, maximal:Point):void
@@ -35,10 +37,22 @@ package com.vettigheid.physics.objects
 			this.position = new Point(position.x + (radius / 2), position.y + (radius / 2));
 			
 			// Set the enemy's movement speed
-			this.speed = new Point(3, 7);
+			this.speed = new Point(2, 7);
 			
 			// Not quite sure what this does
 			this.body.m_linearDamping = 1;
+		}
+		
+		public function collisionPlayerAddHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
+		{
+			if(angle > -30 && angle < 30)
+			{
+				model.physics.destroyObject(model.physics.getObject(this.name));
+			}
+			else
+			{
+				PlayerPhysicsObject(model.physics.getObject("Player"))._respawn = true;
+			}
 		}
 		
 		override public function move():void
@@ -52,6 +66,8 @@ package com.vettigheid.physics.objects
 			}
 
 			this.setLinearVelocity(speed.x, body.GetLinearVelocity().y);
+			
+			super.move();
 		}
 	}
 }

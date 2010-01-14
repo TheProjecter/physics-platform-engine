@@ -14,9 +14,9 @@ package com.vettigheid.physics.objects
 		private var _direction:String;
 		private var _joint:b2PrismaticJoint;
 		
-		public function ElevatorPhysicsObject()
+		public function ElevatorPhysicsObject(name:String)
 		{
-			super();
+			super(name);
 		}
 		
 		public function build(vo:ElevatorValueObject):void

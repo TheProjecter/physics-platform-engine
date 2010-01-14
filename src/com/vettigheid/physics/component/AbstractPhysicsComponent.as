@@ -17,18 +17,33 @@ package com.vettigheid.physics.component
 	{
 		protected var model:ModelLocator;
 		
+		private var _action:String;
 		private var _body:b2Body;
 		private var _bodydef:b2BodyDef;
+		private var _direction:String;
 		private var _mass:b2MassData;
+		private var _name:String;
 		private var _position:Point;
 		private var _shape:b2ShapeDef;
 		private var _vo:AbstractValueObject;
 		
-		public function AbstractPhysicsComponent()
+		public function AbstractPhysicsComponent(name:String)
 		{
 			model = ModelLocator.getInstance();
 			
 			_bodydef = new b2BodyDef();	
+			_direction = "right";
+			_name = name;
+		}
+		
+		public function get action():String
+		{
+			return _action;
+		}
+		
+		public function set action(value:String):void
+		{
+			_action = value;
 		}
 		
 		public function get body():b2Body
@@ -46,10 +61,25 @@ package com.vettigheid.physics.component
 			return _bodydef;
 		}
 		
+		public function get direction():String
+		{
+			return _direction;
+		}
+		
+		public function set direction(value:String):void
+		{
+			_direction = value;
+		}
+		
 		public function set mass(value:b2MassData):void
 		{
 			_mass = value;
 			_body.SetMass(_mass);
+		}
+
+		public function get name():String
+		{
+			return _name;
 		}
 
 		public function get position():Point

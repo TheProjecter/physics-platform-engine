@@ -1,19 +1,22 @@
 package com.vettigheid.engine.vo
 {
 	import com.adobe.cairngorm.vo.IValueObject;
+	
+	import flash.utils.Dictionary;
 
 	public class GameValueObject implements IValueObject
 	{
 		private var _clouds:Array;
 		private var _elevators:Array;
 		private var _enemies:Array;
-		private var _items:Array;
+		private var _items:Dictionary;
 		private var _level:LevelValueObject;
+		private var _names:Array;
 		private var _player:PlayerValueObject;
 		private var _ready:Boolean = false;
 		private var _traps:Array;
 		
-		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array, items:Array, elevators:Array, traps:Array, clouds:Array)
+		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array, items:Dictionary, elevators:Array, traps:Array, clouds:Array)
 		{
 			_clouds = clouds;
 			_elevators = elevators;
@@ -39,7 +42,7 @@ package com.vettigheid.engine.vo
 			return _enemies;
 		}
 		
-		public function get items():Array
+		public function get items():Dictionary
 		{
 			return _items;
 		}

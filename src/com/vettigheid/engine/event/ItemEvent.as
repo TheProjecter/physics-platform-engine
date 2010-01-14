@@ -4,9 +4,18 @@ package com.vettigheid.engine.event
 	{
 		public static var ITEM_HIT:String = "Player hits an item";
 		
-		public function ItemEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		private var _name:String;
+		
+		public function ItemEvent(type:String, name:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
+			_name = name;
+			
 			super(type, bubbles, cancelable);
+		}
+		
+		public function get name():String
+		{
+			return _name;
 		}
 	}
 }

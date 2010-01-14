@@ -11,9 +11,9 @@ package com.vettigheid.physics.objects
 	
 	public class ItemPhysicsObject extends SensorPhysicsComponent
 	{
-		public function ItemPhysicsObject()
+		public function ItemPhysicsObject(name:String)
 		{			
-			super();
+			super(name);
 		}
 		
 		public function build(position:Point):void
@@ -32,11 +32,11 @@ package com.vettigheid.physics.objects
 			this.position = new Point(position.x + (radius / 2) + (this.model.tileSize / 4), position.y + (radius / 2) + (this.model.tileSize / 4));
 		}
 		
-		public function collisionPlayerHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
+		public function collisionPlayerHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
 		{
 			this.isHit = true;
 			
-			var itemEvent:ItemEvent = new ItemEvent(ItemEvent.ITEM_HIT);
+			var itemEvent:ItemEvent = new ItemEvent(ItemEvent.ITEM_HIT, this.name);
 			itemEvent.dispatch();
 		}
 	}
