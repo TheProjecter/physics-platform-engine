@@ -33,69 +33,84 @@ package com.vettigheid.engine.command
 			
 			var physics:PhysicsWrapper = model.physics;
 			
-			var levelPhysicsObject:LevelPhysicsObject = new LevelPhysicsObject("level");
-			physics.addObject("level", levelPhysicsObject);
-			levelPhysicsObject.build(model.gameVO.level.tiles);
-
 			var playerPhysicsObject:PlayerPhysicsObject = new PlayerPhysicsObject(model.gameVO.player.name);
 			physics.addObject(model.gameVO.player.name, playerPhysicsObject);
 			playerPhysicsObject.build(model.gameVO.player.position);
+			
+			var levelPhysicsObject:LevelPhysicsObject = new LevelPhysicsObject("level");
+			physics.addObject("level", levelPhysicsObject);
+			levelPhysicsObject.build(model.gameVO.level.tiles);
 			
 			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
 			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
 			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
 			
-			for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
+			if(model.gameVO.clouds)
 			{
-				var enemyPhysicsObject:EnemyPhysicsObject = new EnemyPhysicsObject(enemyVO.name);
-				physics.addObject(enemyVO.name, enemyPhysicsObject);
-				enemyPhysicsObject.build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
+				for each(var cloudVO:CloudValueObject in model.gameVO.clouds)
+				{
+					var cloudPhysicsObject:CloudPhysicsObject = new CloudPhysicsObject(cloudVO.name);
+					physics.addObject(cloudVO.name, cloudPhysicsObject);
+					cloudPhysicsObject.build(cloudVO);
 					
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, enemyPhysicsObject, PhysicsCollision.ADD, enemyPhysicsObject.collisionPlayerAddHandler));	
-			
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.ADD, cloudPhysicsObject.collisionPlayerAddAndPersistHandler));
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.PERSIST, cloudPhysicsObject.collisionPlayerAddAndPersistHandler));
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.REMOVE, cloudPhysicsObject.collisionPlayerRemoveHandler));
+				
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
+				}
 			}
 			
-			for each(var itemVO:ItemValueObject in model.gameVO.items)
+			if(model.gameVO.elevators)
 			{
-				var itemPhysicsObject:ItemPhysicsObject = new ItemPhysicsObject(itemVO.name);
-				physics.addObject(itemVO.name, itemPhysicsObject);
-				itemPhysicsObject.build(itemVO.position);
-				
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, itemPhysicsObject, PhysicsCollision.ADD, itemPhysicsObject.collisionPlayerHandler));
+				for each(var elevatorVO:ElevatorValueObject in model.gameVO.elevators)
+				{
+					var elevatorPhysicsObject:ElevatorPhysicsObject = new ElevatorPhysicsObject(elevatorVO.name);
+					physics.addObject(elevatorVO.name, elevatorPhysicsObject);
+					elevatorPhysicsObject.build(elevatorVO);
+					
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.ADD, elevatorPhysicsObject.collisionPlayerAddAndPersistHandler));
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.PERSIST, elevatorPhysicsObject.collisionPlayerAddAndPersistHandler));
+				}
 			}
 			
-			for each(var elevatorVO:ElevatorValueObject in model.gameVO.elevators)
+			if(model.gameVO.enemies)
 			{
-				var elevatorPhysicsObject:ElevatorPhysicsObject = new ElevatorPhysicsObject(elevatorVO.name);
-				physics.addObject(elevatorVO.name, elevatorPhysicsObject);
-				elevatorPhysicsObject.build(elevatorVO);
+				for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
+				{
+					var enemyPhysicsObject:EnemyPhysicsObject = new EnemyPhysicsObject(enemyVO.name);
+					physics.addObject(enemyVO.name, enemyPhysicsObject);
+					enemyPhysicsObject.build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
+						
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, enemyPhysicsObject, PhysicsCollision.ADD, enemyPhysicsObject.collisionPlayerAddHandler));	
 				
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.ADD, elevatorPhysicsObject.collisionPlayerAddAndPersistHandler));
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.PERSIST, elevatorPhysicsObject.collisionPlayerAddAndPersistHandler));
+				}
 			}
 			
-			for each(var trapVO:TrapValueObject in model.gameVO.traps)
+			if(model.gameVO.items)
 			{
-				var trapPhysicsObject:TrapPhysicsObject = new TrapPhysicsObject(trapVO.name);
-				physics.addObject(trapVO.name, trapPhysicsObject);
-				trapPhysicsObject.build(trapVO);
-				
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, trapPhysicsObject, PhysicsCollision.ADD, trapPhysicsObject.collisionPlayerHandler));
+				for each(var itemVO:ItemValueObject in model.gameVO.items)
+				{
+					var itemPhysicsObject:ItemPhysicsObject = new ItemPhysicsObject(itemVO.name);
+					physics.addObject(itemVO.name, itemPhysicsObject);
+					itemPhysicsObject.build(itemVO.position);
+					
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, itemPhysicsObject, PhysicsCollision.ADD, itemPhysicsObject.collisionPlayerHandler));
+				}
 			}
 			
-			for each(var cloudVO:CloudValueObject in model.gameVO.clouds)
+			if(model.gameVO.traps)
 			{
-				var cloudPhysicsObject:CloudPhysicsObject = new CloudPhysicsObject(cloudVO.name);
-				physics.addObject(cloudVO.name, cloudPhysicsObject);
-				cloudPhysicsObject.build(cloudVO);
-				
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.ADD, cloudPhysicsObject.collisionPlayerAddAndPersistHandler));
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.PERSIST, cloudPhysicsObject.collisionPlayerAddAndPersistHandler));
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.REMOVE, cloudPhysicsObject.collisionPlayerRemoveHandler));
-			
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, cloudPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
+				for each(var trapVO:TrapValueObject in model.gameVO.traps)
+				{
+					var trapPhysicsObject:TrapPhysicsObject = new TrapPhysicsObject(trapVO.name);
+					physics.addObject(trapVO.name, trapPhysicsObject);
+					trapPhysicsObject.build(trapVO);
+					
+					physics.addCollision(new PhysicsCollision(playerPhysicsObject, trapPhysicsObject, PhysicsCollision.ADD, trapPhysicsObject.collisionPlayerHandler));
+				}
 			}
 			
 			model.gameVO.ready = true;
