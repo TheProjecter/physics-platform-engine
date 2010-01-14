@@ -6,55 +6,50 @@ package com.vettigheid.engine.vo
 
 	public class GameValueObject implements IValueObject
 	{
-		private var _clouds:Array;
-		private var _elevators:Array;
-		private var _enemies:Array;
-		private var _items:Dictionary;
-		private var _level:LevelValueObject;
-		private var _names:Array;
-		private var _player:PlayerValueObject;
 		private var _ready:Boolean = false;
-		private var _traps:Array;
+		private var _objects:Dictionary;
 		
-		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array, items:Dictionary, elevators:Array, traps:Array, clouds:Array)
+		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array=null, items:Dictionary=null, elevators:Array=null, traps:Array=null, clouds:Array=null)
 		{
-			_clouds = clouds;
-			_elevators = elevators;
-			_enemies = enemies;
-			_items = items;
-			_level = level;
-			_player = player;
-			_traps = traps;
+			_objects = new Dictionary(true);
+			
+			_objects["clouds"] = clouds;
+			_objects["elevators"] = elevators;
+			_objects["enemies"] = enemies;
+			_objects["items"] = items;
+			_objects["level"] = level;
+			_objects["player"] = player;
+			_objects["traps"] = traps;
 		}
 		
 		public function get clouds():Array
 		{
-			return _clouds;
+			return _objects["clouds"];
 		}
 		
 		public function get elevators():Array
 		{
-			return _elevators;
+			return _objects["elevators"];
 		}
 		
 		public function get enemies():Array
 		{
-			return _enemies;
+			return _objects["enemies"];
 		}
 		
 		public function get items():Dictionary
 		{
-			return _items;
+			return _objects["items"];
 		}
 		
 		public function get level():LevelValueObject
 		{
-			return _level;
+			return _objects["level"];
 		}
 		
 		public function get player():PlayerValueObject
 		{
-			return _player;
+			return _objects["player"];
 		}
 		
 		public function get ready():Boolean
@@ -69,7 +64,7 @@ package com.vettigheid.engine.vo
 		
 		public function get traps():Array
 		{
-			return _traps;
+			return _objects["traps"];
 		}
 	}
 }
