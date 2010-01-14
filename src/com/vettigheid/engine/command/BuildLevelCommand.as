@@ -70,9 +70,8 @@ package com.vettigheid.engine.command
 				physics.addObject(elevatorVO.name, elevatorPhysicsObject);
 				elevatorPhysicsObject.build(elevatorVO);
 				
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.PERSIST, playerPhysicsObject.collisionFloorPersistHandler));
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.REMOVE, playerPhysicsObject.collisionFloorRemoveHandler));
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.ADD, elevatorPhysicsObject.collisionPlayerAddAndPersistHandler));
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, elevatorPhysicsObject, PhysicsCollision.PERSIST, elevatorPhysicsObject.collisionPlayerAddAndPersistHandler));
 			}
 			
 			for each(var trapVO:TrapValueObject in model.gameVO.traps)

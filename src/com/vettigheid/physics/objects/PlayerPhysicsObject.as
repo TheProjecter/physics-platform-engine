@@ -27,6 +27,11 @@ package com.vettigheid.physics.objects
 			_directions = value;
 		}
 		
+		public function set grounded(value:Boolean):void
+		{
+			_grounded = value;
+		}
+		
 		public function build(position:Point):void
 		{
 			var radius:Number = 35;

@@ -1,6 +1,8 @@
 package com.vettigheid.physics.objects
 {
+	import Box2D.Collision.b2ContactPoint;
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	import Box2D.Dynamics.Joints.b2PrismaticJoint;
 	import Box2D.Dynamics.Joints.b2PrismaticJointDef;
 	
@@ -48,10 +50,35 @@ package com.vettigheid.physics.objects
 			_joint = model.physics.addJoint(prismJoint) as b2PrismaticJoint;
 		}
 		
+		public function collisionPlayerAddAndPersistHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
+		{
+			if(_direction == "horizontal")
+			{
+				if(((point.normal.x <= 1 && point.normal.x > 0) && (point.normal.y >= 0 && point.normal.y < 1)) || ((point.normal.x >= -1 && point.normal.x < 0) && (point.normal.y >= 0 && point.normal.y < 1)))
+				{
+					_joint.SetMotorSpeed(-_joint.GetMotorSpeed());
+				}
+				else
+				{
+					PlayerPhysicsObject(model.physics.getObject("Player")).grounded = true;
+				}
+			}
+			
+			if(_direction == "vertical")
+			{
+				if((point.normal.x > -1 && point.normal.x <= 0) && (point.normal.y > 0 && point.normal.y <= 1))
+				{
+					_joint.SetMotorSpeed(-_joint.GetMotorSpeed());
+				}
+				else
+				{
+					PlayerPhysicsObject(model.physics.getObject("Player")).grounded = true;
+				}
+			}
+		}
+		
 		override public function move():void
 		{
-			// TODO: Fix that the elevator do not get stuck between objects
-			
 			if(_direction == "horizontal")
 			{
 				if(_joint.m_upperTranslation * 30 == Math.round(_joint.GetBody2().GetPosition().x * 30 - position.x))
