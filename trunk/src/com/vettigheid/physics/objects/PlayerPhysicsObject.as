@@ -10,16 +10,16 @@ package com.vettigheid.physics.objects
 	import flash.geom.Point;
 	
 	public class PlayerPhysicsObject extends DynamicPhysicsComponent
-	{
+	{		
 		private var _directions:Array;
 		private var _grounded:Boolean = false;
 		private var _jumping:Boolean = false;
 		
-		public function PlayerPhysicsObject()
+		public function PlayerPhysicsObject(name:String)
 		{
 			_directions = new Array();
 			
-			super();
+			super(name);
 		}
 		
 		public function set directions(value:Array):void
@@ -49,12 +49,7 @@ package com.vettigheid.physics.objects
 			this.body.m_linearDamping = 1;
 		}
 		
-		public function collisionEnemyAddHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
-		{
-			this._respawn = true;
-		}
-		
-		public function collisionFloorAddHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
+		public function collisionFloorAddHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
 		{
 			if(point.normal.y >= -1 && point.normal.y < 0)
 			{
@@ -62,7 +57,7 @@ package com.vettigheid.physics.objects
 			}
 		}
 		
-		public function collisionFloorPersistHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
+		public function collisionFloorPersistHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
 		{
 			if(point.normal.y >= -1 && point.normal.y < 0)
 			{
@@ -70,7 +65,7 @@ package com.vettigheid.physics.objects
 			}
 		}
 		
-		public function collisionFloorRemoveHandler(point:b2ContactPoint=null, contact:b2Contact=null):void
+		public function collisionFloorRemoveHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
 		{
 			if(point.normal.y >= -1 && point.normal.y < 0)
 			{
@@ -101,6 +96,33 @@ package com.vettigheid.physics.objects
 			if(!_directions[KeyboardCommand.UP] && _grounded)
 			{
 				_jumping = false;
+			}
+
+			if(this.body.GetLinearVelocity().x > 1 && _directions[KeyboardCommand.RIGHT])
+			{
+				this.direction = "right";
+				this.action = "walk";
+			}
+			
+			if(this.body.GetLinearVelocity().x < -1 && _directions[KeyboardCommand.LEFT])
+			{
+				this.direction = "left";
+				this.action = "walk";
+			}
+			
+			if(this.body.GetLinearVelocity().y > 1 && !_grounded)
+			{
+				this.action = "fall";
+			}
+			
+			if(this.body.GetLinearVelocity().y < -1  && _directions[KeyboardCommand.UP])
+			{
+				this.action = "jump";
+			}
+			
+			if(this.body.GetLinearVelocity().x < 1 && this.body.GetLinearVelocity().x > -1 && this.body.GetLinearVelocity().y < 1 && this.body.GetLinearVelocity().y > -1)
+			{
+				this.action = "stand";
 			}
 		}
 		

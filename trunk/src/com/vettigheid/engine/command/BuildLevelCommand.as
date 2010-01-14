@@ -33,11 +33,11 @@ package com.vettigheid.engine.command
 			
 			var physics:PhysicsWrapper = model.physics;
 			
-			var levelPhysicsObject:LevelPhysicsObject = new LevelPhysicsObject();
+			var levelPhysicsObject:LevelPhysicsObject = new LevelPhysicsObject("level");
 			physics.addObject("level", levelPhysicsObject);
 			levelPhysicsObject.build(model.gameVO.level.tiles);
-			
-			var playerPhysicsObject:PlayerPhysicsObject = new PlayerPhysicsObject();
+
+			var playerPhysicsObject:PlayerPhysicsObject = new PlayerPhysicsObject(model.gameVO.player.name);
 			physics.addObject(model.gameVO.player.name, playerPhysicsObject);
 			playerPhysicsObject.build(model.gameVO.player.position);
 			
@@ -47,16 +47,17 @@ package com.vettigheid.engine.command
 			
 			for each(var enemyVO:EnemyValueObject in model.gameVO.enemies)
 			{
-				var enemyPhysicsObject:EnemyPhysicsObject = new EnemyPhysicsObject();
+				var enemyPhysicsObject:EnemyPhysicsObject = new EnemyPhysicsObject(enemyVO.name);
 				physics.addObject(enemyVO.name, enemyPhysicsObject);
 				enemyPhysicsObject.build(enemyVO.position, enemyVO.minimal, enemyVO.maximal);
-				
-				physics.addCollision(new PhysicsCollision(playerPhysicsObject, enemyPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionEnemyAddHandler));	
+					
+				physics.addCollision(new PhysicsCollision(playerPhysicsObject, enemyPhysicsObject, PhysicsCollision.ADD, enemyPhysicsObject.collisionPlayerAddHandler));	
+			
 			}
 			
 			for each(var itemVO:ItemValueObject in model.gameVO.items)
 			{
-				var itemPhysicsObject:ItemPhysicsObject = new ItemPhysicsObject();
+				var itemPhysicsObject:ItemPhysicsObject = new ItemPhysicsObject(itemVO.name);
 				physics.addObject(itemVO.name, itemPhysicsObject);
 				itemPhysicsObject.build(itemVO.position);
 				
@@ -65,7 +66,7 @@ package com.vettigheid.engine.command
 			
 			for each(var elevatorVO:ElevatorValueObject in model.gameVO.elevators)
 			{
-				var elevatorPhysicsObject:ElevatorPhysicsObject = new ElevatorPhysicsObject();
+				var elevatorPhysicsObject:ElevatorPhysicsObject = new ElevatorPhysicsObject(elevatorVO.name);
 				physics.addObject(elevatorVO.name, elevatorPhysicsObject);
 				elevatorPhysicsObject.build(elevatorVO);
 				
@@ -76,7 +77,7 @@ package com.vettigheid.engine.command
 			
 			for each(var trapVO:TrapValueObject in model.gameVO.traps)
 			{
-				var trapPhysicsObject:TrapPhysicsObject = new TrapPhysicsObject();
+				var trapPhysicsObject:TrapPhysicsObject = new TrapPhysicsObject(trapVO.name);
 				physics.addObject(trapVO.name, trapPhysicsObject);
 				trapPhysicsObject.build(trapVO);
 				
@@ -85,7 +86,7 @@ package com.vettigheid.engine.command
 			
 			for each(var cloudVO:CloudValueObject in model.gameVO.clouds)
 			{
-				var cloudPhysicsObject:CloudPhysicsObject = new CloudPhysicsObject();
+				var cloudPhysicsObject:CloudPhysicsObject = new CloudPhysicsObject(cloudVO.name);
 				physics.addObject(cloudVO.name, cloudPhysicsObject);
 				cloudPhysicsObject.build(cloudVO);
 				

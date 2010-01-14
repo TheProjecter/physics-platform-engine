@@ -13,10 +13,11 @@ package com.vettigheid.engine.command
 	import com.vettigheid.engine.vo.TrapValueObject;
 	
 	import flash.geom.Point;
+	import flash.utils.Dictionary;
 
-	public class LoadLevelCommand extends AbstractCommand implements ICommand
+	public class LoadLevelXMLCommand extends AbstractCommand implements ICommand
 	{
-		public function LoadLevelCommand()
+		public function LoadLevelXMLCommand()
 		{
 			super();
 		}
@@ -44,8 +45,8 @@ package com.vettigheid.engine.command
 			enemies.push(new EnemyValueObject("Enemy_1", new Point(80, 280), new Point(40, 280), new Point(120, 280)));
 			//enemies.push(new EnemyValueObject("Enemy_2", new Point(320, 280), new Point(280, 280), new Point(360, 280)));
 			
-			var items:Array = new Array();
-			items.push(new ItemValueObject("Item_1", new Point(160, 240)));
+			var items:Dictionary = new Dictionary(true);
+			items["Item_1"] = new ItemValueObject("Item_1", new Point(160, 240));
 			
 			var elevators:Array = new Array();
 			elevators.push(new ElevatorValueObject("Elevator_1", new Point(160, 120), "horizontal", -1, 2));

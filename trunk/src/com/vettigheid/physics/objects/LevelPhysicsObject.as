@@ -6,9 +6,9 @@ package com.vettigheid.physics.objects
 	
 	public class LevelPhysicsObject extends AbstractPhysicsComponent
 	{
-		public function LevelPhysicsObject()
+		public function LevelPhysicsObject(name:String)
 		{
-			super();
+			super(name);
 		}
 		
 		public function build(data:Array):void

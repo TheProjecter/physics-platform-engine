@@ -52,7 +52,25 @@ package com.vettigheid.physics.collision
 			_collisions.push(collision);
 		}
 		
-		public function checkCollision(collision:PhysicsCollision, point:b2ContactPoint):Boolean
+		private function checkAngle(point:b2ContactPoint, reverse:Number, solidityAng:Number=90, solidityRange:Number=60):Number
+		{
+			var isColliding:Boolean = false;
+			
+			// if the contactPoint's normal is not within a 60 degree range from "down", disable collisions
+			var normalAng:Number = Math.atan2( point.normal.y * reverse, point.normal.x * reverse );
+         	var deltaAng:Number = (normalAng - (solidityAng * Math.PI / 180.0))
+         
+         	// normalize angle
+         	deltaAng %= (Math.PI * 2)
+         	if (deltaAng < -Math.PI) { deltaAng += Math.PI * 2; }
+         	if (deltaAng > Math.PI) { deltaAng -= Math.PI * 2; }
+         
+         	var check:Boolean = (Math.abs(deltaAng) < (solidityRange * Math.PI / 180.0));
+			
+			return deltaAng * 180 / Math.PI;
+		}
+		
+		private function checkCollision(collision:PhysicsCollision, point:b2ContactPoint):Boolean
 		{
 			var isColliding:Boolean = false;
 			
@@ -61,6 +79,7 @@ package com.vettigheid.physics.collision
 				if(collision.component2.body == point.shape1.GetBody() || collision.component2.body == point.shape2.GetBody())
 				{
 					isColliding = true;
+					collision.angle = checkAngle(point, 1);
 				}
 			}
 			

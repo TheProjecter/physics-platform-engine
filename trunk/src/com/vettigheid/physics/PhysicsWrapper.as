@@ -36,6 +36,11 @@ package com.vettigheid.physics
 			_components = new Dictionary(true);
 		}
 		
+		public function get components():Dictionary
+		{
+			return _components;
+		}
+		
 		public function get debugSprite():Sprite
 		{
 			return _debugSprite;
@@ -64,12 +69,14 @@ package com.vettigheid.physics
 		
 		public function destroyObject(component:AbstractPhysicsComponent):void
 		{
-			for (var key:Object in _components)
+			for(var key:Object in _components)
 			{
 				if(_components[key] == component)
 				{
-					_world.DestroyBody(component.body);
+					_world.m_lock = false;
+					_world.DestroyBody(_components[key].body);
 					_components[key] = null;
+					delete _components[key];
 				}
 			}
 		}
@@ -97,16 +104,10 @@ package com.vettigheid.physics
 				{
 					if(SensorPhysicsComponent(component).isHit)
 					{
-						if(component is ItemPhysicsObject)
-						{
-							this.destroyObject(component);
-						}
-						
 						if(component is TrapPhysicsObject)
 						{
 							SensorPhysicsComponent(component).isHit = false;
 							DynamicPhysicsComponent(getObject("Player")).respawn();
-							
 						}
 					}
 				}

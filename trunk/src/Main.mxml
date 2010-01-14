@@ -60,7 +60,7 @@
 				this.addEventListener(Event.ENTER_FRAME, handleEnterFrame, false, 0, true);
 
 				// Dispatch a LevelEvent to the EngineController that the first level can be loaded
-				var levelEvent:LevelEvent = new LevelEvent(LevelEvent.LOAD);
+				var levelEvent:LevelEvent = new LevelEvent(LevelEvent.LOAD_XML);
 				levelEvent.dispatch();
 			}
 			

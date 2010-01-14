@@ -3,6 +3,7 @@ package com.vettigheid.engine.vo
 	import com.adobe.cairngorm.vo.IValueObject;
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	
+	import flash.display.DisplayObject;
 	import flash.geom.Point;
 
 	public class AbstractValueObject implements IValueObject
@@ -16,7 +17,7 @@ package com.vettigheid.engine.vo
 			_name = name;
 			_position = position;
 		}
-		
+
 		public function get name():String
 		{
 			return _name;
