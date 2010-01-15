@@ -12,8 +12,10 @@ package com.vettigheid.engine.command
 	import com.vettigheid.engine.vo.PlayerValueObject;
 	import com.vettigheid.engine.vo.TrapValueObject;
 	
+	import flash.events.Event;
 	import flash.geom.Point;
-	import flash.utils.Dictionary;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 
 	public class LoadLevelXMLCommand extends AbstractCommand implements ICommand
 	{
@@ -23,45 +25,104 @@ package com.vettigheid.engine.command
 		}
 		
 		public function execute(event:CairngormEvent):void
+		{			
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener(Event.COMPLETE, handleXMLLoadComplete);
+			loader.load(new URLRequest("data/levels.xml"));
+		}
+		
+		private function handleXMLLoadComplete(e:Event):void
 		{
-			// TODO: Make the leveldata come from a XMLfile
-			var tiles:Array = [
-				[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-				[1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-				[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-				[1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 0, 1, 4, 5, 0, 0, 1],
-				[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-			];
+			var i:int = 1;
+			var xml:XML = new XML(e.target.data);
 			
-			var levelVO:LevelValueObject = new LevelValueObject(tiles);
+			for each(var level:XML in xml.children())
+			{
+				// TODO: Make PHP script to only load the neccesary level
+				if(level.@id == 1)
+				{
+/** Level XML Parser **/
+					
+					// Parse the Tiles to a readable array for the LevelVO
+					var tiles:Array = new Array();
+					for each(var row:String in level.tiles.children())
+					{
+						tiles.push(row.split(","));
+					}
+					
+					// Put the array with tiles in a LevelVO
+					var levelVO:LevelValueObject = new LevelValueObject(tiles);
+					
+/** Player XML Parser **/
+
+					var playerVO:PlayerValueObject = new PlayerValueObject(new Point(level.player.@x, level.player.@y));
+				
+/** Clouds XML Parser **/
+
+					var clouds:Array = new Array();
+					i = 1;
+					for each(var cloud:XML in level.clouds.children())
+					{
+						clouds.push(new CloudValueObject("Cloud_" + i, new Point(cloud.@x, cloud.@y)));
+						i++;
+					}
+					
+					if(clouds.length == 0) clouds = null;
+					
+/** Elevators XML Parser **/
+
+					var elevators:Array = new Array();
+					i = 1;
+					for each(var elevator:XML in level.elevators.children())
+					{
+						elevators.push(new ElevatorValueObject("Elevator_" + i, new Point(elevator.@x, elevator.@y), elevator.@direction, elevator.@min, elevator.@max));
+						i++;
+					}
+					
+					if(elevators.length == 0) elevators = null;
+					
+/** Enemies XML Parser **/
+
+					var enemies:Array = new Array();
+					i = 1;
+					for each(var enemy:XML in level.enemies.children())
+					{
+						enemies.push(new EnemyValueObject("Enemy_" + i, new Point(enemy.@x, enemy.@y), new Point(enemy.@min_x, enemy.@min_y), new Point(enemy.@max_x, enemy.@max_y)));
+						i++;
+					}
+					
+					if(enemies.length == 0) enemies = null;
+					
+/** Items XML Parser **/
+					
+					var items:Array = new Array();
+					i = 1;
+					for each(var item:XML in level.items.children())
+					{
+						items.push(new ItemValueObject("Item_" + i, new Point(item.@x, item.@y)));
+						i++;
+					}
+					
+					if(items.length == 0) items = null;
+					
+/** Traps XML Parser **/
+
+					var traps:Array = new Array();
+					i = 1;
+					for each(var trap:XML in level.traps.children())
+					{
+						traps.push(new TrapValueObject("Trap_" + i, new Point(trap.@x, trap.@y)));
+						i++;
+					}
+					
+					if(traps.length == 0) traps = null;
+				}
+			}
 			
-			var playerVO:PlayerValueObject = new PlayerValueObject("Player", new Point(40, 80));
+			//Put all object in a GameVO
+			model.gameVO = new GameValueObject(levelVO, playerVO, clouds, elevators, enemies, items, traps);
 			
-			var enemies:Array = new Array();
-			enemies.push(new EnemyValueObject("Enemy_1", new Point(80, 280), new Point(40, 280), new Point(120, 280)));
-			//enemies.push(new EnemyValueObject("Enemy_2", new Point(320, 280), new Point(280, 280), new Point(360, 280)));
-			
-			var items:Dictionary = new Dictionary(true);
-			items["Item_1"] = new ItemValueObject("Item_1", new Point(160, 240));
-			
-			var elevators:Array = new Array();
-			elevators.push(new ElevatorValueObject("Elevator_1", new Point(160, 120), "horizontal", -1, 2));
-			elevators.push(new ElevatorValueObject("Elevator_2", new Point(440, 120), "vertical", 0, 4));
-			
-			var traps:Array = new Array();
-			traps.push(new TrapValueObject("Trap_1", new Point(600, 280)));
-			traps.push(new TrapValueObject("Trap_2", new Point(640, 280)));
-			traps.push(new TrapValueObject("Trap_3", new Point(680, 280)));
-			
-			var clouds:Array = new Array();
-			clouds.push(new CloudValueObject("Cloud_1", new Point(320, 280)));
-			
-			model.gameVO = new GameValueObject(levelVO, playerVO, enemies, items, elevators, traps, clouds);
-			
+			// Level is ready to be played, dispatch Ready Event
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);
 			levelEvent.dispatch();
 		}

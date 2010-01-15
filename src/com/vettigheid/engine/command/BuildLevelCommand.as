@@ -37,8 +37,8 @@ package com.vettigheid.engine.command
 			physics.addObject(model.gameVO.player.name, playerPhysicsObject);
 			playerPhysicsObject.build(model.gameVO.player.position);
 			
-			var levelPhysicsObject:LevelPhysicsObject = new LevelPhysicsObject("level");
-			physics.addObject("level", levelPhysicsObject);
+			var levelPhysicsObject:LevelPhysicsObject = new LevelPhysicsObject(model.gameVO.level.name);
+			physics.addObject(model.gameVO.level.name, levelPhysicsObject);
 			levelPhysicsObject.build(model.gameVO.level.tiles);
 			
 			physics.addCollision(new PhysicsCollision(playerPhysicsObject, levelPhysicsObject, PhysicsCollision.ADD, playerPhysicsObject.collisionFloorAddHandler));

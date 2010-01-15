@@ -1,13 +1,17 @@
 package com.vettigheid.engine.vo
 {
 	import com.adobe.cairngorm.vo.ValueObject;
+	
+	import flash.geom.Point;
 
-	public class LevelValueObject implements ValueObject
+	public class LevelValueObject extends AbstractValueObject implements ValueObject
 	{
 		private var _tiles:Array;
 		
 		public function LevelValueObject(tiles:Array)
 		{
+			super("Level", new Point());
+			
 			_tiles = tiles;
 		}
 		
