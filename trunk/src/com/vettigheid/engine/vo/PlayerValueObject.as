@@ -6,9 +6,9 @@ package com.vettigheid.engine.vo
 
 	public class PlayerValueObject extends AbstractValueObject implements IValueObject
 	{
-		public function PlayerValueObject(name:String, position:Point)
+		public function PlayerValueObject(position:Point)
 		{
-			super(name, position);
+			super("Player", position);
 		}
 	}
 }

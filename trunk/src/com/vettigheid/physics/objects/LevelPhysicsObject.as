@@ -19,7 +19,7 @@ package com.vettigheid.physics.objects
 			{
 				for(var j:int = 0; j < data[0].length; j++)
 				{
-					switch(data[i][j])
+					switch(Number(data[i][j]))
 					{
 						case 1:
 							this.shape = this.createBox(model.tileSize, model.tileSize, j * model.tileSize + model.tileSize / 2, i * model.tileSize + model.tileSize / 2, 0, .5, .2, true);

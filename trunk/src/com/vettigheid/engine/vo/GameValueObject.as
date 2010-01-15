@@ -9,7 +9,7 @@ package com.vettigheid.engine.vo
 		private var _ready:Boolean = false;
 		private var _objects:Dictionary;
 		
-		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, enemies:Array=null, items:Dictionary=null, elevators:Array=null, traps:Array=null, clouds:Array=null)
+		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, clouds:Array=null, elevators:Array=null, enemies:Array=null, items:Array=null, traps:Array=null)
 		{
 			_objects = new Dictionary(true);
 			
@@ -37,7 +37,7 @@ package com.vettigheid.engine.vo
 			return _objects["enemies"];
 		}
 		
-		public function get items():Dictionary
+		public function get items():Array
 		{
 			return _objects["items"];
 		}
