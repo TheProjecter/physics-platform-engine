@@ -1,5 +1,7 @@
 package com.vettigheid.physics.objects
 {
+	import com.vettigheid.engine.vo.AbstractValueObject;
+	import com.vettigheid.engine.vo.LevelValueObject;
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	
 	import flash.geom.Point;
@@ -11,15 +13,15 @@ package com.vettigheid.physics.objects
 			super(name);
 		}
 		
-		public function build(data:Array):void
+		override public function build(vo:AbstractValueObject):void
 		{
 			this.position = new Point(0, 0);
 			
-			for(var i:int = 0; i < data.length; i++)
+			for(var i:int = 0; i < LevelValueObject(vo).tiles.length; i++)
 			{
-				for(var j:int = 0; j < data[0].length; j++)
+				for(var j:int = 0; j < LevelValueObject(vo).tiles[0].length; j++)
 				{
-					switch(Number(data[i][j]))
+					switch(Number(LevelValueObject(vo).tiles[i][j]))
 					{
 						case 1:
 							this.shape = this.createBox(model.tileSize, model.tileSize, j * model.tileSize + model.tileSize / 2, i * model.tileSize + model.tileSize / 2, 0, .5, .2, true);

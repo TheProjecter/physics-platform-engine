@@ -4,40 +4,51 @@ package com.vettigheid.physics.collision
 	import Box2D.Dynamics.Contacts.b2Contact;
 	import Box2D.Dynamics.Contacts.b2ContactResult;
 	import Box2D.Dynamics.b2ContactListener;
+	
+	import flash.utils.Dictionary;
 
 	public class PhysicsCollisionListener extends b2ContactListener
 	{
-		private var _collisions:Array = new Array();
+		private var _collisions:Dictionary = new Dictionary(true);
 		
 		override public virtual function Add(point:b2ContactPoint, contact:b2Contact):void
 		{
-			for each(var collision:PhysicsCollision in _collisions)
+			for each(var collisions:Array in _collisions)
 			{
-				if(collision.type == PhysicsCollision.ADD && checkCollision(collision, point))
+				for each(var collision:PhysicsCollision in collisions)
 				{
-					collision.onCollision(point, contact);
+					if(collision.type == PhysicsCollision.ADD && checkCollision(collision, point))
+					{
+						collision.onCollision(point, contact);
+					}
 				}
 			}
 		}
 		
 		override public virtual function Persist(point:b2ContactPoint, contact:b2Contact):void
 		{
-			for each(var collision:PhysicsCollision in _collisions)
+			for each(var collisions:Array in _collisions)
 			{
-				if(collision.type == PhysicsCollision.PERSIST && checkCollision(collision, point))
+				for each(var collision:PhysicsCollision in collisions)
 				{
-					collision.onCollision(point, contact);
+					if(collision.type == PhysicsCollision.PERSIST && checkCollision(collision, point))
+					{
+						collision.onCollision(point, contact);
+					}
 				}
 			}
 		}
 		
 		override public virtual function Remove(point:b2ContactPoint, contact:b2Contact):void
 		{
-			for each(var collision:PhysicsCollision in _collisions)
+			for each(var collisions:Array in _collisions)
 			{
-				if(collision.type == PhysicsCollision.REMOVE && checkCollision(collision, point))
+				for each(var collision:PhysicsCollision in collisions)
 				{
-					collision.onCollision(point, contact);
+					if(collision.type == PhysicsCollision.REMOVE && checkCollision(collision, point))
+					{
+						collision.onCollision(point, contact);
+					}
 				}
 			}	
 		}
@@ -47,9 +58,20 @@ package com.vettigheid.physics.collision
 
 		}
 		
-		public function addCollision(collision:PhysicsCollision):void
+		public function addCollision(name:String, collision:PhysicsCollision):void
 		{
-			_collisions.push(collision);
+			if(_collisions[name] == null)
+			{
+				_collisions[name] = new Array();
+			}
+			
+			_collisions[name].push(collision);
+		}
+		
+		public function removeCollisions(name:String):void
+		{
+			_collisions[name] = null;
+			delete _collisions[name];
 		}
 		
 		private function checkAngle(point:b2ContactPoint, reverse:Number, solidityAng:Number=90, solidityRange:Number=60):Number

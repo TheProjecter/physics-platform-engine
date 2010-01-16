@@ -6,6 +6,7 @@ package com.vettigheid.physics.objects
 	import Box2D.Dynamics.Joints.b2PrismaticJoint;
 	import Box2D.Dynamics.Joints.b2PrismaticJointDef;
 	
+	import com.vettigheid.engine.vo.AbstractValueObject;
 	import com.vettigheid.engine.vo.ElevatorValueObject;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	
@@ -21,9 +22,9 @@ package com.vettigheid.physics.objects
 			super(name);
 		}
 		
-		public function build(vo:ElevatorValueObject):void
+		override public function build(vo:AbstractValueObject):void
 		{
-			_direction = vo.direction;
+			_direction = ElevatorValueObject(vo).direction;
 			
 			this.shape = this.createBox(model.tileSize, model.tileSize, 0, 0, 10, .5, .2);
 			this.position = new Point(vo.position.x + (this.model.tileSize / 2), vo.position.y + (this.model.tileSize / 2));
@@ -40,8 +41,8 @@ package com.vettigheid.physics.objects
 				prismJoint.Initialize(model.physics.groundBody, this.body, new b2Vec2((position.x + model.tileSize / 2) / 30, (position.y + model.tileSize / 2) / 30), new b2Vec2(0, 1));
 			}
 			
-			prismJoint.lowerTranslation = (vo.minimal * this.model.tileSize) / 30;
-			prismJoint.upperTranslation = (vo.maximal * this.model.tileSize) / 30;
+			prismJoint.lowerTranslation = (ElevatorValueObject(vo).minimal * this.model.tileSize) / 30;
+			prismJoint.upperTranslation = (ElevatorValueObject(vo).maximal * this.model.tileSize) / 30;
 			prismJoint.enableLimit = true;
 			prismJoint.enableMotor = true;
 			prismJoint.maxMotorForce = 400;
@@ -74,6 +75,14 @@ package com.vettigheid.physics.objects
 				{
 					PlayerPhysicsObject(model.physics.getObject("Player")).grounded = true;
 				}
+			}
+		}
+		
+		public function collisionPlayerRemoveHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
+		{
+         	if(point.normal.y >= -1 && point.normal.y < 0)
+			{
+				PlayerPhysicsObject(model.physics.getObject("Player")).grounded = false;
 			}
 		}
 		

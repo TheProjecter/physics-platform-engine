@@ -6,6 +6,7 @@ package com.vettigheid.engine.command
 	import com.vettigheid.engine.vo.CloudValueObject;
 	import com.vettigheid.engine.vo.ElevatorValueObject;
 	import com.vettigheid.engine.vo.EnemyValueObject;
+	import com.vettigheid.engine.vo.ExitValueObject;
 	import com.vettigheid.engine.vo.GameValueObject;
 	import com.vettigheid.engine.vo.ItemValueObject;
 	import com.vettigheid.engine.vo.LevelValueObject;
@@ -39,7 +40,7 @@ package com.vettigheid.engine.command
 			for each(var level:XML in xml.children())
 			{
 				// TODO: Make PHP script to only load the neccesary level
-				if(level.@id == 1)
+				if(level.@id == model.currentLevel)
 				{
 /** Level XML Parser **/
 					
@@ -92,14 +93,18 @@ package com.vettigheid.engine.command
 					}
 					
 					if(enemies.length == 0) enemies = null;
-					
+
+/** Exit XML Parser **/
+
+					var exit:ExitValueObject = new ExitValueObject("Exit", new Point(level.exit.@x, level.exit.@y));
+
 /** Items XML Parser **/
 					
 					var items:Array = new Array();
 					i = 1;
 					for each(var item:XML in level.items.children())
 					{
-						items.push(new ItemValueObject("Item_" + i, new Point(item.@x, item.@y)));
+						items.push(new ItemValueObject("Item_" + i, new Point(item.@x, item.@y), item.@type));
 						i++;
 					}
 					
@@ -120,7 +125,7 @@ package com.vettigheid.engine.command
 			}
 			
 			//Put all object in a GameVO
-			model.gameVO = new GameValueObject(levelVO, playerVO, clouds, elevators, enemies, items, traps);
+			model.gameVO = new GameValueObject(levelVO, playerVO, clouds, elevators, enemies, exit, items, traps);
 			
 			// Level is ready to be played, dispatch Ready Event
 			var levelEvent:LevelEvent = new LevelEvent(LevelEvent.BUILD);

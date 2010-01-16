@@ -74,9 +74,12 @@
 					// Render the Box2D Physics Engine
 					model.physics.render();
 					
-					// Move the level according to the movement of the player
-					gameView.position = new Point(PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().x * 30, PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().y * 30);
-					debugView.position = gameView.position;
+					if(model.physics.getObject(model.gameVO.player.name))
+					{
+						// Move the level according to the movement of the player
+						gameView.position = new Point(PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().x * 30, PlayerPhysicsObject(model.physics.getObject(model.gameVO.player.name)).body.GetPosition().y * 30);
+						debugView.position = gameView.position;
+					}
 				}
 			}
 			

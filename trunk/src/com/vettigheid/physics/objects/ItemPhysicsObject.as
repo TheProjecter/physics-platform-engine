@@ -5,6 +5,7 @@ package com.vettigheid.physics.objects
 	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	import com.vettigheid.engine.event.ItemEvent;
+	import com.vettigheid.engine.vo.AbstractValueObject;
 	import com.vettigheid.physics.component.SensorPhysicsComponent;
 	
 	import flash.geom.Point;
@@ -16,7 +17,7 @@ package com.vettigheid.physics.objects
 			super(name);
 		}
 		
-		public function build(position:Point):void
+		override public function build(vo:AbstractValueObject):void
 		{
 			var radius:Number = 20;
 
@@ -25,17 +26,14 @@ package com.vettigheid.physics.objects
 			
 			// Make the shape a sensor so it do not collides
 			sensor.isSensor = true;
-			
 			this.shape = sensor;
 			
 			// Set the item to its position in the level
-			this.position = new Point(position.x + (radius / 2) + (this.model.tileSize / 4), position.y + (radius / 2) + (this.model.tileSize / 4));
+			this.position = new Point(vo.position.x + (radius / 2) + (this.model.tileSize / 4), vo.position.y + (radius / 2) + (this.model.tileSize / 4));
 		}
 		
 		public function collisionPlayerHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
 		{
-			this.isHit = true;
-			
 			var itemEvent:ItemEvent = new ItemEvent(ItemEvent.ITEM_HIT, this.name);
 			itemEvent.dispatch();
 		}
