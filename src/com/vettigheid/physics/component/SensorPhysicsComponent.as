@@ -8,15 +8,5 @@ package com.vettigheid.physics.component
 		{
 			super(name);
 		}
-		
-		public function get isHit():Boolean
-		{
-			return _isHit;
-		}
-		
-		public function set isHit(value:Boolean):void
-		{
-			_isHit = value;
-		}
 	}
 }

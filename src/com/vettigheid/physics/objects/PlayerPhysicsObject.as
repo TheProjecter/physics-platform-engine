@@ -5,6 +5,7 @@ package com.vettigheid.physics.objects
 	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	import com.vettigheid.engine.command.KeyboardCommand;
+	import com.vettigheid.engine.vo.AbstractValueObject;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	
 	import flash.geom.Point;
@@ -32,7 +33,7 @@ package com.vettigheid.physics.objects
 			_grounded = value;
 		}
 		
-		public function build(position:Point):void
+		override public function build(vo:AbstractValueObject):void
 		{
 			var radius:Number = 35;
 			
@@ -45,7 +46,7 @@ package com.vettigheid.physics.objects
 			this.mass = massData;
 
 			// Set the player to its position in the level
-			this.position = new Point(position.x + (radius / 2), position.y + (radius / 2));
+			this.position = new Point(vo.position.x + (radius / 2), vo.position.y + (radius / 2));
 			
 			// Set the players movement speed
 			this.speed = new Point(3, 7);

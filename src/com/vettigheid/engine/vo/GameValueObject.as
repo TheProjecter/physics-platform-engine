@@ -6,15 +6,16 @@ package com.vettigheid.engine.vo
 
 	public class GameValueObject implements IValueObject
 	{
-		private var _ready:Boolean = false;
 		private var _objects:Dictionary;
+		private var _ready:Boolean = false;
 		
-		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, clouds:Array=null, elevators:Array=null, enemies:Array=null, items:Array=null, traps:Array=null)
+		public function GameValueObject(level:LevelValueObject, player:PlayerValueObject, clouds:Array=null, elevators:Array=null, enemies:Array=null, exit:ExitValueObject=null, items:Array=null, traps:Array=null)
 		{
 			_objects = new Dictionary(true);
 			
 			_objects["clouds"] = clouds;
 			_objects["elevators"] = elevators;
+			_objects["exit"] = exit;
 			_objects["enemies"] = enemies;
 			_objects["items"] = items;
 			_objects["level"] = level;
@@ -35,6 +36,11 @@ package com.vettigheid.engine.vo
 		public function get enemies():Array
 		{
 			return _objects["enemies"];
+		}
+		
+		public function get exit():ExitValueObject
+		{
+			return _objects["exit"];
 		}
 		
 		public function get items():Array

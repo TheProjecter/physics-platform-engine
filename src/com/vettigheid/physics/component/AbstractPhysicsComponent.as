@@ -108,6 +108,11 @@ package com.vettigheid.physics.component
 			_body.SetMassFromShapes();
 		}
 		
+		public function build(vo:AbstractValueObject):void
+		{
+			
+		}
+		
 		protected function createBox(width:Number, height:Number, x:Number, y:Number, density:Number, friction:Number, restitution:Number, oriented:Boolean=false):b2ShapeDef
 		{
 			var box:b2PolygonDef = new b2PolygonDef();

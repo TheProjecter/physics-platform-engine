@@ -4,6 +4,8 @@ package com.vettigheid.physics.objects
 	import Box2D.Collision.b2ContactPoint;
 	import Box2D.Dynamics.Contacts.b2Contact;
 	
+	import com.vettigheid.engine.vo.AbstractValueObject;
+	import com.vettigheid.engine.vo.EnemyValueObject;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
 	
 	import flash.geom.Point;
@@ -18,12 +20,12 @@ package com.vettigheid.physics.objects
 			super(name);
 		}
 		
-		public function build(position:Point, minimal:Point, maximal:Point):void
+		override public function build(vo:AbstractValueObject):void
 		{
 			var radius:Number = 35;
 			
-			_minimal = new Point(minimal.x + (radius / 2), minimal.y + (radius / 2));
-			_maximal = new Point(maximal.x + (radius / 2), maximal.y + (radius / 2));
+			_minimal = new Point(EnemyValueObject(vo).minimal.x + (radius / 2), EnemyValueObject(vo).minimal.y + (radius / 2));
+			_maximal = new Point(EnemyValueObject(vo).maximal.x + (radius / 2), EnemyValueObject(vo).maximal.y + (radius / 2));
 			
 			// Create a circle shape correspondening to the size of the enemy
 			this.shape = this.createCircle(radius, 1, 1, .1);
@@ -34,7 +36,7 @@ package com.vettigheid.physics.objects
 			this.mass = massData;
 			
 			// Set the enemy to its position in the level
-			this.position = new Point(position.x + (radius / 2), position.y + (radius / 2));
+			this.position = new Point(vo.position.x + (radius / 2), vo.position.y + (radius / 2));
 			
 			// Set the enemy's movement speed
 			this.speed = new Point(2, 7);

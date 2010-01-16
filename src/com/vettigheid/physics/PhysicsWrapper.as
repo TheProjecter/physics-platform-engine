@@ -12,9 +12,6 @@ package com.vettigheid.physics
 	import com.vettigheid.physics.collision.PhysicsCollisionListener;
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
 	import com.vettigheid.physics.component.DynamicPhysicsComponent;
-	import com.vettigheid.physics.component.SensorPhysicsComponent;
-	import com.vettigheid.physics.objects.ItemPhysicsObject;
-	import com.vettigheid.physics.objects.TrapPhysicsObject;
 	
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
@@ -51,9 +48,9 @@ package com.vettigheid.physics
 			return _world.GetGroundBody();
 		}
 
-		public function addCollision(collision:PhysicsCollision):void
+		public function addCollision(name:String, collision:PhysicsCollision):void
 		{
-			_collisionListener.addCollision(collision);
+			_collisionListener.addCollision(name, collision);
 		}
 		
 		public function addJoint(jointDef:b2JointDef):b2Joint
@@ -67,6 +64,18 @@ package com.vettigheid.physics
 			_components[name] = component;
 		}
 		
+		public function destroyAll():void
+		{
+			for(var key:Object in _components)
+			{
+				_world.m_lock = false;
+				_world.DestroyBody(_components[key].body);
+				_collisionListener.removeCollisions(String(key));
+				_components[key] = null;
+				delete _components[key];
+			}
+		}
+		
 		public function destroyObject(component:AbstractPhysicsComponent):void
 		{
 			for(var key:Object in _components)
@@ -75,6 +84,7 @@ package com.vettigheid.physics
 				{
 					_world.m_lock = false;
 					_world.DestroyBody(_components[key].body);
+					_collisionListener.removeCollisions(String(key));
 					_components[key] = null;
 					delete _components[key];
 				}
@@ -97,18 +107,6 @@ package com.vettigheid.physics
 					if(DynamicPhysicsComponent(component)._respawn)
 					{
 						DynamicPhysicsComponent(component).respawn();
-					}
-				}
-				
-				if(component is SensorPhysicsComponent)
-				{
-					if(SensorPhysicsComponent(component).isHit)
-					{
-						if(component is TrapPhysicsObject)
-						{
-							SensorPhysicsComponent(component).isHit = false;
-							DynamicPhysicsComponent(getObject("Player")).respawn();
-						}
 					}
 				}
 			}

@@ -10,6 +10,7 @@ package com.vettigheid.engine.model
 	{
 		private static var _instance:ModelLocator
 		
+		public var currentLevel:Number = 1;
 		public var debugMode:Boolean = true;
 		public var gameVO:GameValueObject;
 		public var keys:Array = new Array();
