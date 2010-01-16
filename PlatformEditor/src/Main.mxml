@@ -1,4 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" applicationComplete="handleApplicationComplete()" xmlns:control="com.vettigheid.editor.control.*" xmlns:view="com.vettigheid.editor.view.*">
+
+	<mx:Script>
+		<![CDATA[
+			import com.vettigheid.editor.event.GridEvent;
+			import com.vettigheid.editor.view.ViewManager;
+			import com.vettigheid.utils.Stats;
+			import com.vettigheid.editor.model.ModelLocator;
+
+			private var _model:ModelLocator;
+
+			private function handleApplicationComplete():void
+			{
+				// Show the Statistics for this Application
+				// this.rawChildren.addChild(new Stats);
+
+				_model = ModelLocator.getInstance();
+				_model.views = new ViewManager();
+				_model.views.addView("gridView", gridView);
+				
+				var gridEvent:GridEvent = new GridEvent(GridEvent.BUILD);
+				gridEvent.dispatch();
+			}
+		]]>
+	</mx:Script>
 	
+	<control:EditorController id="editorControl" />
+	
+	<view:GridView id="gridView" />
+
 </mx:WindowedApplication>
