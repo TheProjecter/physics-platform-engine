@@ -16,7 +16,7 @@
 			private function handleApplicationComplete():void
 			{
 				// Show the Statistics for this Application
-				// this.rawChildren.addChild(new Stats);
+				this.rawChildren.addChild(new Stats);
 
 				_model = ModelLocator.getInstance();
 				
@@ -31,8 +31,8 @@
 				// var menuEvent:MenuEvent = new MenuEvent(MenuEvent.BUILD);
 				// menuEvent.dispatch();
 				
-				// var toolsEvent:ToolsEvent = new ToolsEvent(ToolsEvent.BUILD);
-				// toolsEvent.dispatch();
+				var toolsEvent:ToolsEvent = new ToolsEvent(ToolsEvent.BUILD);
+				toolsEvent.dispatch();
 				
 				var gridEvent:GridEvent = new GridEvent(GridEvent.BUILD);
 				gridEvent.dispatch();

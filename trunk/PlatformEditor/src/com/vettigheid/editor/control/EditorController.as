@@ -5,6 +5,7 @@ package com.vettigheid.editor.control
 	import com.vettigheid.editor.command.GridClickCommand;
 	import com.vettigheid.editor.command.MenuBuildCommand;
 	import com.vettigheid.editor.command.ToolsBuildCommand;
+	import com.vettigheid.editor.command.ToolsClickCommand;
 	import com.vettigheid.editor.event.GridEvent;
 	import com.vettigheid.editor.event.MenuEvent;
 	import com.vettigheid.editor.event.ToolsEvent;
@@ -24,6 +25,7 @@ package com.vettigheid.editor.control
 			addCommand(MenuEvent.BUILD, MenuBuildCommand);
 			
 			addCommand(ToolsEvent.BUILD, ToolsBuildCommand);
+			addCommand(ToolsEvent.CLICK, ToolsClickCommand);
 		}
 	}
 }
