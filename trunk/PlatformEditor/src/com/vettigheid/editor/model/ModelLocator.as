@@ -2,6 +2,9 @@ package com.vettigheid.editor.model
 {
 	import com.adobe.cairngorm.model.IModelLocator;
 	import com.vettigheid.editor.view.ViewManager;
+	
+	import flash.display.NativeMenu;
+	import flash.utils.Dictionary;
 
 	[Bindable]
 	public class ModelLocator implements IModelLocator
@@ -9,6 +12,15 @@ package com.vettigheid.editor.model
 		private static var _instance:ModelLocator
 
 		public var debug:Boolean = true;
+		public var menu:NativeMenu;
+		public var _polygons:Number = 0;
+		public var polygons:Dictionary = new Dictionary(true);
+		public var tileCols:Number = 4;
+		public var tileRows:Number = 4;
+		public var tiles:Dictionary;
+		public var tileSize:Number = 40;
+		public var tileTypes:Array;
+		public var tools:Dictionary;
 		public var views:ViewManager;
 
 		public function ModelLocator(enforcer:SingletonEnforcer)

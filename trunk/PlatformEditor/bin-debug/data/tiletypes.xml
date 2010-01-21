@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types>
+	<type id="1">
+		<point x="0" y="0" />
+		<point x="40" y="0" />
+		<point x="40" y="40" />
+		<point x="0" y="40" />
+	</type>
+	<type id="2">
+		<point x="0" y="40" />
+		<point x="40" y="20" />
+		<point x="40" y="40" />
+	</type>
+</types>
