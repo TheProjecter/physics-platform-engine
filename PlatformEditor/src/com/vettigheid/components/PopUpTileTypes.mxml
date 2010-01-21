@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" creationComplete="handleCreationComplete()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import com.vettigheid.editor.model.ModelLocator;
+			import com.vettigheid.editor.vo.TileTypeValueObject;
+			
+			private var model:ModelLocator;
+			
+			private function handleCreationComplete():void
+			{
+				model = ModelLocator.getInstance();
+			
+				for each(var type:TileTypeValueObject in model.tileTypes)
+				{
+					var tileType:UIComponent = new UIComponent();
+					tileType.width = 40;
+					tileType.height = 40;
+					tileType.buttonMode = true;
+					tileType.addChild(type.image);
+					
+					tilesOverview.addChild(tileType);
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Tile id="tilesOverview" />
+
+</mx:TitleWindow>

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" applicationComplete="handleApplicationComplete()" xmlns:control="com.vettigheid.editor.control.*" xmlns:view="com.vettigheid.editor.view.*">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" applicationComplete="handleApplicationComplete()" xmlns:control="com.vettigheid.editor.control.*" xmlns:view="com.vettigheid.editor.view.*" width="800" height="800">
 
 	<mx:Script>
 		<![CDATA[
+			import com.vettigheid.editor.event.MenuEvent;
+			import com.vettigheid.editor.event.ToolsEvent;
 			import com.vettigheid.editor.event.GridEvent;
 			import com.vettigheid.editor.view.ViewManager;
 			import com.vettigheid.utils.Stats;
 			import com.vettigheid.editor.model.ModelLocator;
 
+			[Bindable]
 			private var _model:ModelLocator;
 
 			private function handleApplicationComplete():void
@@ -16,8 +19,20 @@
 				// this.rawChildren.addChild(new Stats);
 
 				_model = ModelLocator.getInstance();
+				
+				_model.menu = new NativeMenu();
+				stage.nativeWindow.menu = _model.menu;
+				
 				_model.views = new ViewManager();
 				_model.views.addView("gridView", gridView);
+				_model.views.addView("popupView", popupView);
+				_model.views.addView("toolsView", toolsView);
+				
+				// var menuEvent:MenuEvent = new MenuEvent(MenuEvent.BUILD);
+				// menuEvent.dispatch();
+				
+				// var toolsEvent:ToolsEvent = new ToolsEvent(ToolsEvent.BUILD);
+				// toolsEvent.dispatch();
 				
 				var gridEvent:GridEvent = new GridEvent(GridEvent.BUILD);
 				gridEvent.dispatch();
@@ -27,6 +42,9 @@
 	
 	<control:EditorController id="editorControl" />
 	
-	<view:GridView id="gridView" />
+	<view:PopUpView id="popupView" width="100%" height="100%" />
+	
+	<view:ToolsView id="toolsView" width="{_model.tileSize}" />
+	<view:GridView id="gridView" x="50" />
 
 </mx:WindowedApplication>

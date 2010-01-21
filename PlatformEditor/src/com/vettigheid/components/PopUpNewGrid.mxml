@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" width="180" height="180" title="Create New Grid">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.vettigheid.editor.model.ModelLocator;
+			import com.vettigheid.editor.event.GridEvent;
+			import mx.managers.PopUpManager;
+
+			private var _model:ModelLocator;
+			
+			private function handleCreateClick():void
+			{
+				_model = ModelLocator.getInstance();
+				
+				// TODO: Make validator of formfields
+				_model.tileRows = int(form_height.text);
+				_model.tileSize = int(form_size.text);
+				_model.tileCols = int(form_width.text);
+				
+				var gridEvent:GridEvent = new GridEvent(GridEvent.BUILD);
+				gridEvent.dispatch();
+				
+				PopUpManager.removePopUp(this);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Form>
+		<mx:FormItem label="Width" required="true">
+			<mx:TextInput id="form_width"  maxChars="3" width="50" restrict="0-9" />
+		</mx:FormItem>
+		<mx:FormItem label="Height" required="true">
+			<mx:TextInput id="form_height"  maxChars="3" width="50" restrict="0-9" />
+		</mx:FormItem>
+		<mx:FormItem label="Size" required="true">
+			<mx:TextInput id="form_size"  maxChars="3" width="50" restrict="0-9" />
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:Button label="Create" click="handleCreateClick()" />
+		</mx:FormItem>
+	</mx:Form>
+	
+</mx:Panel>
