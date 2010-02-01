@@ -8,7 +8,7 @@
 	width="520"
 	height="360"
 	frameRate="30"
->
+ backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#000000, #000000]">
 	
 	<mx:Script>
 		<![CDATA[
@@ -30,7 +30,7 @@
 			private function handleApplicationComplete():void
 			{
 				// Show the Statistics for this Application
-				this.rawChildren.addChild(new Stats);
+				// this.rawChildren.addChild(new Stats);
 				
 				// Get a reference to the ModelLocator
 				model = ModelLocator.getInstance();

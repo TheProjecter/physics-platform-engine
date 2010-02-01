@@ -1,6 +1,5 @@
 package com.vettigheid.physics
 {
-	import Box2D.Collision.b2AABB;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.Joints.b2Joint;
 	import Box2D.Dynamics.Joints.b2JointDef;
@@ -20,6 +19,7 @@ package com.vettigheid.physics
 	{
 		private var _collisionListener:PhysicsCollisionListener;
 		private var _components:Dictionary;
+		private var _debug:Boolean;
 		private var _debugSprite:Sprite;
 		private var _iterations:int = 10;
 		private var _timeStep:Number = 1.0 / 30.0;
@@ -27,8 +27,10 @@ package com.vettigheid.physics
 		
 		public function PhysicsWrapper(debug:Boolean=false)
 		{
+			_debug = debug;
+			
 			init();
-			if(debug) initDebug(); 
+			if(_debug) initDebug(); 
 			
 			_components = new Dictionary(true);
 		}
@@ -68,7 +70,7 @@ package com.vettigheid.physics
 		{
 			for(var key:Object in _components)
 			{
-				_world.m_lock = false;
+				// _world.m_lock = false;
 				_world.DestroyBody(_components[key].body);
 				_collisionListener.removeCollisions(String(key));
 				_components[key] = null;
@@ -82,7 +84,7 @@ package com.vettigheid.physics
 			{
 				if(_components[key] == component)
 				{
-					_world.m_lock = false;
+					// _world.m_lock = false;
 					_world.DestroyBody(_components[key].body);
 					_collisionListener.removeCollisions(String(key));
 					_components[key] = null;
@@ -111,22 +113,20 @@ package com.vettigheid.physics
 				}
 			}
 			
-			_world.Step(_timeStep, _iterations);
+			_world.Step(_timeStep, 10, _iterations);
+			_world.ClearForces();
+			if(_debug) _world.DrawDebugData();
 		}
 		
 		private function init():void
 		{
-			var worldAABB:b2AABB = new b2AABB();
-			worldAABB.lowerBound.Set(-100.0, -100.0);
-			worldAABB.upperBound.Set(100.0, 100.0);
-			
 			var gravity:b2Vec2 = new b2Vec2(0.0, 10.0);
 			var doSleep:Boolean = true;
 			
-			_world = new b2World(worldAABB, gravity, doSleep);
+			_world = new b2World(gravity, doSleep);
 			
 			_collisionListener = new PhysicsCollisionListener();
-			_world.m_contactListener = _collisionListener;
+			_world.SetContactListener(_collisionListener);
 		}
 		
 		private function initDebug():void
@@ -134,12 +134,14 @@ package com.vettigheid.physics
 			_debugSprite = new Sprite();
 			
 			var dbgDraw:b2DebugDraw = new b2DebugDraw();
-			dbgDraw.m_sprite = _debugSprite;
-			dbgDraw.m_drawScale = 30.0;
-			dbgDraw.m_alpha = .4;
-			dbgDraw.m_fillAlpha = 0.6;
-			dbgDraw.m_lineThickness = 1;
-			dbgDraw.m_drawFlags = 0xffffff;
+			
+			dbgDraw.SetSprite(_debugSprite);
+			
+			dbgDraw.SetDrawScale(30.0);
+			dbgDraw.SetAlpha(1);
+			dbgDraw.SetFillAlpha(0.6);
+			dbgDraw.SetLineThickness(1);
+			dbgDraw.SetFlags(b2DebugDraw.e_shapeBit);
 			_world.SetDebugDraw(dbgDraw);
 		}
 	}

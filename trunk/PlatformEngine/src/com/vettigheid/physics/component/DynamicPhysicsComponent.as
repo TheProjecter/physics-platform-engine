@@ -1,6 +1,7 @@
 package com.vettigheid.physics.component
 {
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2Body;
 	
 	import flash.geom.Point;
 	

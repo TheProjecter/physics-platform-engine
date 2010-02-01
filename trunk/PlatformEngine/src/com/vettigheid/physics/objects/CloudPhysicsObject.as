@@ -25,7 +25,7 @@ package com.vettigheid.physics.objects
 		{
 			if(angle > -140 && angle < 140)
 			{
-				contact.m_flags |= b2Contact.e_nonSolidFlag;
+				// contact.m_flags |= b2Contact.e_nonSolidFlag;
 			}
 			
 			if(point.normal.y >= -1 && point.normal.y < 0)
@@ -36,10 +36,10 @@ package com.vettigheid.physics.objects
 
 		public function collisionPlayerRemoveHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
 		{
-			if (contact.m_manifoldCount == 0 )
+			/*if (contact.m_manifoldCount == 0 )
 			{
-            	contact.m_flags &= ~b2Contact.e_nonSolidFlag;
-         	}
+            	// contact.m_flags &= ~b2Contact.e_nonSolidFlag;
+         	}*/
          	
          	if(point.normal.y >= -1 && point.normal.y < 0)
 			{

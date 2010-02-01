@@ -1,5 +1,7 @@
 package com.vettigheid.physics.objects
 {
+	import Box2D.Collision.Shapes.b2PolygonShape;
+	
 	import com.vettigheid.engine.vo.AbstractValueObject;
 	import com.vettigheid.engine.vo.LevelValueObject;
 	import com.vettigheid.physics.component.AbstractPhysicsComponent;
@@ -24,15 +26,15 @@ package com.vettigheid.physics.objects
 					switch(Number(LevelValueObject(vo).tiles[i][j]))
 					{
 						case 1:
-							this.shape = this.createBox(model.tileSize, model.tileSize, j * model.tileSize + model.tileSize / 2, i * model.tileSize + model.tileSize / 2, 0, .5, .2, true);
+							this.addFixture(this.createBox(model.tileSize, model.tileSize, j * model.tileSize + model.tileSize / 2, i * model.tileSize + model.tileSize / 2, 0, .5, .2, true));
 						break;
 						
-						case 2:
+						/*case 2:
 							var shape_2:Array = new Array();
 							shape_2.push(new Point(0, model.tileSize));
 							shape_2.push(new Point(model.tileSize, model.tileSize / 2));
 							shape_2.push(new Point(model.tileSize, model.tileSize));
-							this.shape = this.createPoly(shape_2, j * model.tileSize, i * model.tileSize, 0, .5, .2);	
+							this.shape = this.createPoly(shape_2, j * model.tileSize, i * model.tileSize, 0, .5, .2);
 						break;
 						
 						case 3:
@@ -41,7 +43,7 @@ package com.vettigheid.physics.objects
 							shape_3.push(new Point(model.tileSize, 0));
 							shape_3.push(new Point(model.tileSize, model.tileSize));
 							shape_3.push(new Point(0, model.tileSize));
-							this.shape = this.createPoly(shape_3, j * model.tileSize, i * model.tileSize, 0, .5, .2);	
+							this.shape = this.createPoly(shape_3, j * model.tileSize, i * model.tileSize, 0, .5, .2);
 						break;
 						
 						case 4:
@@ -50,7 +52,7 @@ package com.vettigheid.physics.objects
 							shape_4.push(new Point(model.tileSize, model.tileSize / 2));
 							shape_4.push(new Point(model.tileSize, model.tileSize));
 							shape_4.push(new Point(0, model.tileSize));
-							this.shape = this.createPoly(shape_4, j * model.tileSize, i * model.tileSize, 0, .5, .2);	
+							this.shape = this.createPoly(shape_4, j * model.tileSize, i * model.tileSize, 0, .5, .2);
 						break;
 						
 						case 5:
@@ -58,8 +60,8 @@ package com.vettigheid.physics.objects
 							shape_5.push(new Point(0, model.tileSize / 2));
 							shape_5.push(new Point(model.tileSize, model.tileSize));
 							shape_5.push(new Point(0, model.tileSize));
-							this.shape = this.createPoly(shape_5, j * model.tileSize, i * model.tileSize, 0, .5, .2);	
-						break;
+							this.shape = this.createPoly(shape_5, j * model.tileSize, i * model.tileSize, 0, .5, .2);
+						break;*/
 					}
 				}
 			}

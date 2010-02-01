@@ -52,9 +52,9 @@ package com.vettigheid.physics.collision
 			return _type;
 		}
 		
-		public function onCollision(point:b2ContactPoint, contact:b2Contact):void
+		public function onCollision(contact:b2Contact):void
 		{
-			_onCollision(point, contact, angle);
+			// _onCollision(point, contact, angle);
 		}
 	}
 }
