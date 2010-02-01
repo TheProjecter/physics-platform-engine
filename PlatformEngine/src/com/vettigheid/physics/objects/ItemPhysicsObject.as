@@ -1,8 +1,8 @@
 package com.vettigheid.physics.objects
 {
-	import Box2D.Collision.Shapes.b2ShapeDef;
 	import Box2D.Collision.b2ContactPoint;
 	import Box2D.Dynamics.Contacts.b2Contact;
+	import Box2D.Dynamics.b2FixtureDef;
 	
 	import com.vettigheid.engine.event.ItemEvent;
 	import com.vettigheid.engine.vo.AbstractValueObject;
@@ -22,7 +22,7 @@ package com.vettigheid.physics.objects
 			var radius:Number = 20;
 
 			// Create a circle shape correspondening to the size of the item
-			var sensor:b2ShapeDef = this.createCircle(radius, 0, 1, .1);	
+			var sensor:b2FixtureDef = this.createCircle(radius, 0, 1, .1);	
 			
 			// Make the shape a sensor so it do not collides
 			sensor.isSensor = true;

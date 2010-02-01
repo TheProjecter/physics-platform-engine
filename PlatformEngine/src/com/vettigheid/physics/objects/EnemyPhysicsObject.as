@@ -42,7 +42,7 @@ package com.vettigheid.physics.objects
 			this.speed = new Point(2, 7);
 			
 			// Not quite sure what this does
-			this.body.m_linearDamping = 1;
+			this.body.SetLinearDamping(1);
 		}
 		
 		public function collisionPlayerAddHandler(point:b2ContactPoint=null, contact:b2Contact=null, angle:Number=undefined):void
@@ -60,7 +60,7 @@ package com.vettigheid.physics.objects
 		override public function move():void
 		{
 			//TODO: Make sure that the enemy change direction when touching a wall
-			body.WakeUp();
+			body.SetAwake(false);
 			
 			if(body.GetPosition().x * 30 >= _maximal.x || body.GetPosition().x * 30 <= _minimal.x)
 			{

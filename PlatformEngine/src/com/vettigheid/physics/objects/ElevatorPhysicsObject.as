@@ -90,12 +90,12 @@ package com.vettigheid.physics.objects
 		{
 			if(_direction == "horizontal")
 			{
-				if(_joint.m_upperTranslation * 30 == Math.round(_joint.GetBody2().GetPosition().x * 30 - position.x))
+				if(_joint.GetUpperLimit() * 30 == Math.round(_joint.GetBodyB().GetPosition().x * 30 - position.x))
 				{
 					_joint.SetMotorSpeed(-1);
 				}
 			
-				if(_joint.m_lowerTranslation * 30 == Math.round(_joint.GetBody2().GetPosition().x * 30 - position.x))
+				if(_joint.GetLowerLimit() * 30 == Math.round(_joint.GetBodyB().GetPosition().x * 30 - position.x))
 				{
 					_joint.SetMotorSpeed(1);
 				}
@@ -103,12 +103,12 @@ package com.vettigheid.physics.objects
 			
 			if(_direction == "vertical")
 			{
-				if(_joint.m_upperTranslation * 30 == Math.round(_joint.GetBody2().GetPosition().y * 30 - position.y))
+				if(_joint.GetUpperLimit() * 30 == Math.round(_joint.GetBodyB().GetPosition().y * 30 - position.y))
 				{
 					_joint.SetMotorSpeed(-1);
 				}
 			
-				if(_joint.m_lowerTranslation * 30 == Math.round(_joint.GetBody2().GetPosition().y * 30 - position.y))
+				if(_joint.GetLowerLimit() * 30 == Math.round(_joint.GetBodyB().GetPosition().y * 30 - position.y))
 				{
 					_joint.SetMotorSpeed(1);
 				}

@@ -1,12 +1,12 @@
 package com.vettigheid.physics.component
 {
-	import Box2D.Collision.Shapes.b2CircleDef;
+	import Box2D.Collision.Shapes.b2CircleShape;
 	import Box2D.Collision.Shapes.b2MassData;
-	import Box2D.Collision.Shapes.b2PolygonDef;
-	import Box2D.Collision.Shapes.b2ShapeDef;
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
+	import Box2D.Dynamics.b2FixtureDef;
 	
 	import com.vettigheid.engine.model.ModelLocator;
 	import com.vettigheid.engine.vo.AbstractValueObject;
@@ -24,7 +24,7 @@ package com.vettigheid.physics.component
 		private var _mass:b2MassData;
 		private var _name:String;
 		private var _position:Point;
-		private var _shape:b2ShapeDef;
+		private var _shape:b2FixtureDef;
 		private var _vo:AbstractValueObject;
 		
 		public function AbstractPhysicsComponent(name:String)
@@ -74,7 +74,7 @@ package com.vettigheid.physics.component
 		public function set mass(value:b2MassData):void
 		{
 			_mass = value;
-			_body.SetMass(_mass);
+			_body.SetMassData(_mass);
 		}
 
 		public function get name():String
@@ -92,20 +92,19 @@ package com.vettigheid.physics.component
 			_position = value;
 			
 			_body.SetLinearVelocity(new b2Vec2(0, 0));
-			_body.SetXForm(new b2Vec2(value.x / 30, value.y / 30), 0);
+			_body.SetPosition(new b2Vec2(value.x / 30, value.y / 30));
 		}
 		
-		public function get shape():b2ShapeDef
+		public function get shape():b2FixtureDef
 		{
 			return _shape;			
 		}
 		
-		public function set shape(value:b2ShapeDef):void
+		public function set shape(value:b2FixtureDef):void
 		{
 			_shape = value;
-			
-			_body.CreateShape(_shape);
-			_body.SetMassFromShapes();
+
+			_body.CreateFixture(value);
 		}
 		
 		public function build(vo:AbstractValueObject):void
@@ -113,19 +112,21 @@ package com.vettigheid.physics.component
 			
 		}
 		
-		protected function createBox(width:Number, height:Number, x:Number, y:Number, density:Number, friction:Number, restitution:Number, oriented:Boolean=false):b2ShapeDef
+		protected function createBox(width:Number, height:Number, x:Number, y:Number, density:Number, friction:Number, restitution:Number, oriented:Boolean=false):b2FixtureDef
 		{
-			var box:b2PolygonDef = new b2PolygonDef();
+			var box:b2FixtureDef = new b2FixtureDef();
+			var boxDef:b2PolygonShape = new b2PolygonShape();
 			
 			if(oriented)
 			{
-				box.SetAsOrientedBox(width / 30 / 2, height / 30 / 2, new b2Vec2(x / 30, y / 30), 0);
+				boxDef.SetAsOrientedBox(width / 30 / 2, height / 30 / 2, new b2Vec2(x / 30, y / 30), 0);
 			}
 			else
 			{
-				box.SetAsBox(width / 30 / 2, height / 30 / 2);
+				boxDef.SetAsBox(width / 30 / 2, height / 30 / 2);
 			}
 			
+			box.shape = boxDef;
 			box.density = density;
 			box.friction = friction;
 			box.restitution = restitution;
@@ -133,13 +134,18 @@ package com.vettigheid.physics.component
 			return box;
 		}
 		
-		protected function createCircle(radius:Number, density:Number, friction:Number, restitution:Number):b2CircleDef
+		protected function addFixture(fixture:b2FixtureDef):void
+		{
+			this.body.CreateFixture(fixture);
+		}
+		
+		protected function createCircle(radius:Number, density:Number, friction:Number, restitution:Number):b2FixtureDef
 		{
 			// Make a new b2ShapeDef in the shape of a circle
-			var circle:b2CircleDef = new b2CircleDef();
+			var circle:b2FixtureDef = new b2FixtureDef();
+			circle.shape = new b2CircleShape(radius / 2 / 30);
 			
 			// Set some common circle parameters
-			circle.radius = radius / 2 / 30;
 			circle.density = density;
 			circle.friction = friction;
 			circle.restitution = restitution;
@@ -148,21 +154,24 @@ package com.vettigheid.physics.component
 			return circle;
 		}
 		
-		protected function createPoly(points:Array, x:Number, y:Number, density:Number, friction:Number, restitution:Number):b2PolygonDef
+		protected function createPoly(points:Array, x:Number, y:Number, density:Number, friction:Number, restitution:Number):b2FixtureDef
 		{
-			var shape:b2PolygonDef = new b2PolygonDef();
-			shape.vertexCount = points.length;
+			var poly:b2FixtureDef = new b2FixtureDef();
 			
+			var _points:Array = new Array();
 			for(var i:int = 0; i < points.length; i++)
 			{
-				shape.vertices[i].Set((x + points[i].x) / 30, (y + points[i].y) / 30);
+				_points.push((x + points[i].x) / 30, (y + points[i].y) / 30);
 			}
 			
-			shape.density = density;
-			shape.friction = friction;
-			shape.restitution = restitution;
+			var shape:b2PolygonShape = new b2PolygonShape();
+			shape.SetAsArray(_points, _points.length);
 			
-			return shape;
+			poly.density = density;
+			poly.friction = friction;
+			poly.restitution = restitution;
+			
+			return poly;
 		}
 	}
 }
